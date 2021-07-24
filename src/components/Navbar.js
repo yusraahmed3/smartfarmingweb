@@ -11,9 +11,6 @@ function Navbar() {
 
     const closeMenu = () => setClick(false)
 
-
-  
-
     return (
           <>
           <nav className="navbar">
