@@ -1,0 +1,48 @@
+.sidebar{
+    height: 100vh;
+    width: 18vw;
+    background-color: #2f4050;
+    margin: 0;
+    padding: 0;
+}
+
+.sidebarlist{
+    height: auto;
+    width: 100vw;
+    padding: 0;
+    color: rgb(209, 209, 209);
+}
+
+
+.row{
+    margin-top: 50px;
+    width: 18vw;
+    height: 60px;
+    margin: 0%;
+    list-style-type: none;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    font-family: "OpenSans";
+}
+
+#icon{
+    flex: 30%;
+    display: grid;
+    place-items: center;
+}
+
+#title{
+    flex: 70%;
+}
+
+.row:hover{
+    background-color: #293846;
+    color: #fff;
+    cursor: pointer;
+}
+
+#active{
+    background-color: #293846;
+}

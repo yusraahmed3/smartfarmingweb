@@ -1,9 +1,9 @@
 import React from 'react'
-
+import Sidebar from './Sidebar'
 function Admin() {
     return (
         <div>
-            Admin page
+            <Sidebar />
         </div>
     )
 }
