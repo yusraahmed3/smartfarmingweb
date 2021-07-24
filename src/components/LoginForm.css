@@ -1,0 +1,55 @@
+.loginDiv{
+    background-color: #fff;
+    border: 1px solid transparent;
+    border-radius: 0.5rem;
+    max-width: max-content;
+    max-height: max-content;
+    padding: 4rem 4rem;
+    margin: auto;
+    margin-top: 15vh;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+
+}
+
+
+.fieldcss{
+    width: max-content;
+    padding: 2%;
+    border: 1px solid rgb(180, 177, 177);
+    border-radius: 3px;
+    margin-bottom: 6%;
+    font-size: medium;
+    transition: 150 ease-in-out;
+}
+
+.fieldcss:focus{
+    border: 1px solid #1e6091;
+}
+
+
+.button-outline{
+    border: 1px solid #1e6091;
+    background-color: transparent;
+    border-radius: 0.2em;
+    padding: 6px 8px;
+    font-size: medium;
+}
+
+.button-outline:hover{
+    background-color: #1e6091;
+    color: #fff;
+    padding: 5px 8px;
+}
+
+.button-primary{
+    background-color: #1e6091;
+    color: #fff;
+    border: #1e6091;
+    padding: 7px 25px;
+    border-radius: 2px;
+    font-size: medium;
+}
+
+.button-primary:hover{
+    background-color: #052b53;
+}
