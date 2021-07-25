@@ -1,11 +1,12 @@
 import React from 'react'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import Animegirl from '../images/anime.jpg'
 import './Avatar.css'
 
 function Avatar() {
     return (
         <div className="avatarcss">
-            <AccountCircleIcon/>
+            <img src={Animegirl} alt="anime"/>
         </div>
     )
 }
