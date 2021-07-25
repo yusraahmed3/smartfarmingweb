@@ -1,4 +1,8 @@
 .admincss{
     position: absolute;
-    right: 0;
+    right: 0.5%; 
+    height: 70vh;
+    width: 81vw; 
+    align-items: center;
+    justify-content: center;
 }

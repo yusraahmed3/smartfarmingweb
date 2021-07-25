@@ -6,7 +6,9 @@ function Admin() {
         <>
         <Sidebar />
         <div className="admincss">
-            Some admin shit   efrgthhhhhhhhhhhhhhhhhhhhhrlnefwlkdklwefjiwknfklwenfkewnki         
+        <div className="pagetitle">
+             <h2>Dashboard</h2>
+            </div>
         </div>
         </>
     )

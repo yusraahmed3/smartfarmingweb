@@ -1,20 +1,19 @@
 .mngacc{
     
     position: absolute;
-    right: 5%; 
+    right: 1.8%; 
     height: 70vh;
-    width: 72vw; 
+    width: 79vw; 
     align-items: center;
     justify-content: center;
 
 }
 
 .pagetitle{
-    background-color: rgb(178, 211, 240);
+    background-color: rgb(227, 236, 245);
     color: rgb(24, 93, 153);
-    padding: 20px 150px;
-    margin-top: 10px;
-    border-radius: 20px;
+    padding: 10px 150px;
+    margin-top: 15px;
 }
 
 
@@ -26,7 +25,7 @@
 .listitem{
     display: flex;
     flex-direction: row;
-    background-color: rgb(180, 211, 238);
+    background-color: rgb(236, 241, 245);
     padding: 20px 150px; 
     border-radius: 20px;
     margin-bottom: 5px;
