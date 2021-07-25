@@ -1,4 +1,51 @@
 .mngacc{
+    
     position: absolute;
-    right: 0;
+    right: 5%; 
+    height: 70vh;
+    width: 72vw; 
+    align-items: center;
+    justify-content: center;
+
+}
+
+.pagetitle{
+    background-color: rgb(178, 211, 240);
+    color: rgb(24, 93, 153);
+    padding: 20px 150px;
+    margin-top: 10px;
+    border-radius: 20px;
+}
+
+
+.menudiv{
+    list-style-type: none;
+    margin-top: 80px;
+}
+
+.listitem{
+    display: flex;
+    flex-direction: row;
+    background-color: rgb(180, 211, 238);
+    padding: 20px 150px; 
+    border-radius: 20px;
+    margin-bottom: 5px;
+}
+
+.listitem:hover{
+    background-color: rgb(125, 185, 238) ;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 20px;
+}
+
+.icon{
+    flex: 30%;
+    display: grid;
+    place-items: center;
+
+}
+
+.title{
+    flex: 70%;
 }
