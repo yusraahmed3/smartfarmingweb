@@ -21,6 +21,11 @@
     margin-bottom: 5px;
 }
 
+.listitems:hover{
+    background-color: rgb(218, 227, 236);
+    cursor: pointer;
+}
+
 .icon1{
     transform: scale(1.4);
     display: flex;
