@@ -1,6 +1,7 @@
 import React from 'react'
 import Sidebar from './Sidebar'
 import './Admin.css'
+import SearchBar from './SearchBar'
 function Admin() {
     return (
         <>
@@ -9,6 +10,7 @@ function Admin() {
         <div className="pagetitle">
              <h2>Dashboard</h2>
             </div>
+            <SearchBar/>
         </div>
         </>
     )
