@@ -1,10 +1,14 @@
 import React from 'react'
 import Sidebar from './Sidebar'
+import './Admin.css'
 function Admin() {
     return (
-        <div>
-            <Sidebar />
+        <>
+        <Sidebar />
+        <div className="admincss">
+            Some admin shit   efrgthhhhhhhhhhhhhhhhhhhhhrlnefwlkdklwefjiwknfklwenfkewnki         
         </div>
+        </>
     )
 }
 

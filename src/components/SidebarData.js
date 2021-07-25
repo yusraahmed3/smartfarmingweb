@@ -9,7 +9,7 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 export const SidebarData = [{
     title: "Dashboard",
     icon: <DashboardIcon/>,
-    link: "/dash"
+    link: "/adminDash"
 },
 {
     title: "Manage account",

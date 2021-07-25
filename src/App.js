@@ -6,6 +6,10 @@ import About from './components/About';
 import Contact from './components/Contact';
 import Admin from './components/Admin';
 import Request from './components/Request';
+import ApprovedRequests from './components/ApprovedRequests';
+import RejectedRequests from './components/RejectedRequests';
+import ActiveRequests from './components/ActiveRequests';
+import ManageAccount from './components/ManageAccount';
 function App() {
   return (
     <div className="App">
@@ -26,6 +30,18 @@ function App() {
           </Route>
           <Route path="/request">
             <Request/>
+          </Route>
+          <Route path="/approved">
+            <ApprovedRequests/>
+          </Route>
+          <Route path="/rejected">
+            <RejectedRequests/>
+          </Route>
+          <Route path="/active">
+            <ActiveRequests/>
+          </Route>
+          <Route path="/account">
+            <ManageAccount/>
           </Route>
         </Switch>
       </Router>
