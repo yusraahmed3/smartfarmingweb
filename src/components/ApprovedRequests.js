@@ -6,9 +6,9 @@ function ApprovedRequests() {
     return (
 <>
             <Sidebar/>
-            <div className="approvedcss">
+            <div className="position">
             <div className="pagetitle">
-                <h2>Approved Requests</h2>
+                <h3>Approved Requests</h3>
             </div>
             <div>
                 <ul className="activelist">

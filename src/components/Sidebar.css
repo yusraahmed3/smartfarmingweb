@@ -1,7 +1,7 @@
 .sidebar{
     height: 100vh;
-    width: 18vw;
-    background-color: #2f4050;
+    width: 17.2vw;
+    background-color: #344e41;
     margin: 0;
     padding: 0;
     position: absolute;
@@ -46,11 +46,11 @@
 }
 
 .row:hover{
-    background-color: #293846;
+    background-color: #294936;
     color: #fff;
     cursor: pointer;
 }
 
 #active{
-    background-color: #293846;
+    background-color: #294936;
 }

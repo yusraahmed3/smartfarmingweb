@@ -10,9 +10,9 @@ function ManageAccount() {
     return (
         <>
         <Sidebar/>
-        <div className="mngacc"> 
+        <div className="position"> 
             <div className="pagetitle">
-             <h2>Manage Accounts</h2>
+             <h3>Manage Accounts</h3>
             </div>
             <div className="menudiv">
                 <ul className="menulist">

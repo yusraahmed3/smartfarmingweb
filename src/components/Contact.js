@@ -1,11 +1,16 @@
 import React from 'react'
 import Navbar from './Navbar'
+import './Contact.css'
 
 function Contact() {
     return (
         <div>
             <Navbar/>
-            Contact us at 42646655656
+            <div className="contactus">
+               Contact Us
+            </div>
+            <div>
+                </div>
         </div>
     )
 }

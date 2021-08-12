@@ -1,14 +1,13 @@
 import React, { useState } from 'react'
 import { Link, NavLink } from "react-router-dom"
-import logo from '../images/logo.png'
+import logo from '../images/logo2.png'
 import './Navbar.css'
-import MenuIcon from '@material-ui/icons/Menu';
+import MenuIcon from '@material-ui/icons/Menu'
 import CloseIcon from '@material-ui/icons/Close';
 
 function Navbar() {
     const [click, setClick] = useState(false);
     const handleClick = () => setClick(!click);
-
     const closeMenu = () => setClick(false)
 
     return (
@@ -19,7 +18,7 @@ function Navbar() {
                 <img src={logo} alt="logo" className="navimg-logo"/>Smart Farming
               </Link>
               <div className="menu-icon" onClick={handleClick}>
-                <i className={click ? <CloseIcon/> : <MenuIcon/>}/>
+                <i className={click ? 'fas fa-times' : 'fas fa-bars'}/>
               </div>
               <ul className={click ? 'nav-menu active' : 'nav-menu'}>
                   <li className='nav-item'>

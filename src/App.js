@@ -10,6 +10,7 @@ import ApprovedRequests from './components/ApprovedRequests';
 import RejectedRequests from './components/RejectedRequests';
 import ActiveRequests from './components/ActiveRequests';
 import ManageAccount from './components/ManageAccount';
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 function App() {
   return (
     <div className="App">

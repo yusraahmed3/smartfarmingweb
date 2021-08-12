@@ -4,31 +4,43 @@
     border-radius: 0.5rem;
     max-width: max-content;
     max-height: max-content;
-    padding: 4rem 4rem;
-    margin: auto;
-    margin-top: 15vh;
+    padding: 3rem 3rem;
+    margin: 10vh auto;
+    /* margin-top: 15vh; */
     box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
 
 }
 
 
 .fieldcss{
-    width: max-content;
-    padding: 2%;
-    border: 1px solid rgb(180, 177, 177);
+    width: 300px;
+    height: 35px;
     border-radius: 3px;
-    margin-bottom: 6%;
     font-size: medium;
-    transition: 150 ease-in-out;
+    padding-left: 30px;
+    transition: all 0.30s ease-in-out;
+    -webkit-transition: all 150 ease-in-out;
+    -moz-transition: all 0.30s ease-in-out;
+    -ms-transition: all 0.30s ease-in-out;
+    -o-transition: all 0.30s ease-in-out;
+    outline: none;
+    padding: 3px 0px 3px 3px;
+    margin: 5px 1px 3px 0px;
+    border: 1px solid #DDDDDD;
 }
 
 .fieldcss:focus{
-    border: 1px solid #1e6091;
+    width: 300px;
+    height: 35px;
+    box-shadow: 0 0 5px #3e8914;
+    padding: 3px 0px 3px 3px;
+    margin: 5px 1px 3px 0px;
+    border: 1px solid #3e8914;
 }
 
 
 .button-outline{
-    border: 1px solid #1e6091;
+    border: 1px solid #3e8914;
     background-color: transparent;
     border-radius: 0.2em;
     padding: 6px 8px;
@@ -36,20 +48,20 @@
 }
 
 .button-outline:hover{
-    background-color: #1e6091;
+    background-color: #3e8914;
     color: #fff;
     padding: 5px 8px;
 }
 
 .button-primary{
-    background-color: #1e6091;
+    background-color: #3e8914;
     color: #fff;
-    border: #1e6091;
+    border: #3e8914;
     padding: 7px 25px;
     border-radius: 2px;
     font-size: medium;
 }
 
 .button-primary:hover{
-    background-color: #052b53;
+    background-color: #3e8914;
 }

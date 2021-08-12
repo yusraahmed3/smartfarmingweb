@@ -8,9 +8,9 @@ function ActiveRequests() {
     return (
         <>
         <Sidebar />
-        <div className="activecss">
+        <div className="position">
             <div className="pagetitle">
-                <h2>Active Requests</h2>
+                <h3>Active Requests</h3>
             </div>
             <div >
                 <ul className="activelist">

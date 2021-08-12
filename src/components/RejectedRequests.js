@@ -7,9 +7,9 @@ function RejectedRequests() {
     return (
 <>
             <Sidebar/>
-            <div className="rejectedcss">
+            <div className="position">
             <div className="pagetitle">
-                <h2>Rejected Requests</h2>
+                <h3>Rejected Requests</h3>
             </div>
             <div>
                 <ul className="activelist">
