@@ -1,0 +1,52 @@
+
+.activelist{
+    list-style-type: none;
+    margin-top: 80px;
+}
+
+.progresscircular{
+    position: absolute;
+    top: 40%;
+    right: 40%; 
+    height: 70vh;
+    width: 70vw; 
+    align-items: center;
+    justify-content: center;
+}
+
+.listitems{
+    display: flex;
+    flex-direction: row;
+    padding: 20px 150px; 
+    border-radius: 20px;
+    margin-bottom: 5px;
+}
+
+.listitems:hover{
+    background-color: #b6dc76;
+    cursor: pointer;
+    color: #fff;
+}
+
+.icon1{
+    transform: scale(1.4);
+    display: flex;
+    flex: 0.5px;
+    color:rgb(136, 236, 136);
+}
+
+.icon2{
+    flex: 15px;
+    transform: scale(1.4);
+    color: rgb(248, 123, 123);
+}
+
+.icon1:hover{
+    cursor: pointer;
+    color:rgb(79, 241, 79);
+}
+
+.icon2:hover{
+    cursor: pointer;
+    color: rgb(219, 61, 61);
+}
