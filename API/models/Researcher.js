@@ -1,13 +1,6 @@
 const mongoose = require('mongoose')
-const researcher = require('./Researcher')
 
-const requestSchema = new mongoose.Schema({
-    status: {
-        type: String,
-        required: true,
-        default: 'pending'
-
-    },
+const researcherSchema = new mongoose.Schema({
     firstname: {
         type: String,
         required: true
@@ -38,8 +31,8 @@ const requestSchema = new mongoose.Schema({
     },
     idimg: {
         type: String,
+        required: true
     }
-   
 })
 
-module.exports = mongoose.model('Request', requestSchema)
+module.exports = mongoose.model('Researcher', researcherSchema)

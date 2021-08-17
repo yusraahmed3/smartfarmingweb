@@ -9,24 +9,22 @@
 // export default router;
 
 const express = require('express')
-const Request = require('../models/request.js')
+const Researcher = require('../models/Researcher')
 
 const router = express.Router()
 
 router.get('/', async(req,res)=>{
     try{
-        const requests = await Request.find()
-        res.json(requests)
+        const researcher = await Researcher.find()
+        res.json(researcher)
     }catch(err){
         res.send('Error' , + err)
     }
 })
 
 
-
-
 router.post('/', async(req, res)=>{
-    const request = new Request({
+    const researcher = new Researcher({
         firstname: req.body.firstname,
         lastname: req.body.lastname,
         phoneno: req.body.phoneno,
@@ -37,7 +35,7 @@ router.post('/', async(req, res)=>{
         idimg: req.body.idimg,
     })
     try{
-        const a1 = await request.save()
+        const a1 = await researcher.save()
         res.json(a1)
         console.log("Post success")
     }catch(err){
@@ -48,8 +46,8 @@ router.post('/', async(req, res)=>{
 
 router.get("/:id", async(req, res) =>{
     try{
-        const request = await Request.findById(req.params.id)
-        res.json(request)
+        const researcher = await Researcher.findById(req.params.id)
+        res.json(researcher)
         console.log("Found it")
     }
     catch(err){
@@ -60,9 +58,9 @@ router.get("/:id", async(req, res) =>{
 
 router.patch("/:id", async(req, res) =>{
     try{
-        const request = await Request.findById(req.params.id)
-        request.password = req.body.password
-        const a2 = await request.save()
+        const researcher = await Researcher.findById(req.params.id)
+        researcher.password = req.body.password
+        const a2 = await researcher.save()
         res.json(a2)
     }catch(err){
         console.log(err)
@@ -72,8 +70,8 @@ router.patch("/:id", async(req, res) =>{
 
 router.delete('/:id', async(req,res)=>{
     try{
-        const request = await Request.findById(req.params.id)
-        const a3 = await request.delete()
+        const researcher = await Researcher.findById(req.params.id)
+        const a3 = await researcher.delete()
         res.json(a3)
 
     }catch(err){

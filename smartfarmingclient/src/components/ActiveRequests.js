@@ -6,7 +6,6 @@ import "./ActiveRequests.css";
 import ThumbUpIcon from "@material-ui/icons/ThumbUp";
 import ThumbDownIcon from "@material-ui/icons/ThumbDown";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import RequestListing from "./RequestListing";
 
 class ActiveRequests extends Component {
   constructor(props) {
@@ -17,10 +16,62 @@ class ActiveRequests extends Component {
     };
   }
 
+  handleApproveButton = () => {
+    const url = 'http://localhost:4000/approved';
+    this.state.requests.map((req) => (
+    axios({
+      method: 'post',
+      url: url,
+      data: {
+        status: 'approved',
+        firstname: req.firstname,
+        lastname: req.lastname,
+        phoneno: req.phoneno,
+        instname: req.instname,
+        email: req.email,
+        password: req.password,
+        message: req.message
+      }
+  })
+  .then((response) => {
+      alert("Request approved!")
+      console.log(response);
+    }, (error) => {
+      console.log(error);
+    })
+    ))
+  }
+
+  handleRejectButton = () => {
+    const url = 'http://localhost:4000/rejected';
+    this.state.requests.map((req) => (
+    axios({
+      method: 'post',
+      url: url,
+      data: {
+        status: 'rejected',
+        firstname: req.firstname,
+        lastname: req.lastname,
+        phoneno: req.phoneno,
+        instname: req.instname,
+        email: req.email,
+        password: req.password,
+        message: req.message
+      }
+  })
+  .then((response) => {
+      alert("Request rejected!")
+      console.log(response);
+    }, (error) => {
+      console.log(error);
+    })
+    ))
+
+  }
+
   async componentDidMount() {
     const url = "http://localhost:4000/requests";
     const response = await axios.get(url);
-    // const data = await response.json();
     this.setState({
       requests: response.data,
       loading: false,
@@ -48,34 +99,16 @@ class ActiveRequests extends Component {
             <div>
               <ul className="activelist">
                 {this.state.requests.map((req) => (
-                    <Link to="/request" >
-                        {console.log(req._id)}
-                  <li className="listitems" requestid={req._id}>
+                  <li className="listitems" key={req._id}>
                    <div className="title">{req.instname}</div>
                     <div className="icon1">
-                      <ThumbUpIcon />
+                    <button onClick={this.handleApproveButton}><ThumbUpIcon /></button>  
                     </div>
                     <div className="icon2">
-                      <ThumbDownIcon />
+                     <button onClick={this.handleRejectButton}><ThumbDownIcon /></button> 
                     </div>
                   </li>
-                  </Link> 
                 ))}
-                {/* <li className="listitems">
-                        <div className="title">Pending Request 1</div>
-                    </li>
-                    <li className="listitems">
-                    <div className="title">Pending Request 2</div><div className="icon1"><ThumbUpIcon/></div><div className="icon2"><ThumbDownIcon/> </div>
-                    </li>
-                    <li className="listitems">
-                    <div className="title">Pending Request 3</div><div className="icon1"><ThumbUpIcon/></div><div className="icon2"><ThumbDownIcon/> </div>
-                    </li>
-                    <li className="listitems">
-                    <div className="title">Pending Request 4</div><div className="icon1"><ThumbUpIcon/></div><div className="icon2"><ThumbDownIcon/> </div>
-                    </li>
-                    <li className="listitems">
-                    <div className="title">Pending Request 5</div><div className="icon1"><ThumbUpIcon/></div><div className="icon2"><ThumbDownIcon/> </div>
-                    </li> */}
               </ul>
             </div>
           </div>

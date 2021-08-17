@@ -1,21 +1,11 @@
-// const express = require('express');
-
-// const router = express.Router();
-
-// router.get('/', (req, res) => {
-//     res.send('Hello');
-// });
-
-// export default router;
-
 const express = require('express')
-const Request = require('../models/request.js')
+const Approved = require('../models/approvedrequest.js')
 
 const router = express.Router()
 
 router.get('/', async(req,res)=>{
     try{
-        const requests = await Request.find()
+        const requests = await Approved.find()
         res.json(requests)
     }catch(err){
         res.send('Error' , + err)
@@ -23,10 +13,8 @@ router.get('/', async(req,res)=>{
 })
 
 
-
-
 router.post('/', async(req, res)=>{
-    const request = new Request({
+    const request = new Approved({
         firstname: req.body.firstname,
         lastname: req.body.lastname,
         phoneno: req.body.phoneno,
@@ -48,7 +36,7 @@ router.post('/', async(req, res)=>{
 
 router.get("/:id", async(req, res) =>{
     try{
-        const request = await Request.findById(req.params.id)
+        const request = await Approved.findById(req.params.id)
         res.json(request)
         console.log("Found it")
     }
@@ -60,7 +48,7 @@ router.get("/:id", async(req, res) =>{
 
 router.patch("/:id", async(req, res) =>{
     try{
-        const request = await Request.findById(req.params.id)
+        const request = await Approved.findById(req.params.id)
         request.password = req.body.password
         const a2 = await request.save()
         res.json(a2)
@@ -72,7 +60,7 @@ router.patch("/:id", async(req, res) =>{
 
 router.delete('/:id', async(req,res)=>{
     try{
-        const request = await Request.findById(req.params.id)
+        const request = await Approved.findById(req.params.id)
         const a3 = await request.delete()
         res.json(a3)
 

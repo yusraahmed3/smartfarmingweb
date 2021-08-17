@@ -30,7 +30,7 @@ function App() {
           <Route path="/adminDash">
             <Admin/>
           </Route>
-          <Route path="/requests">
+          <Route path="/request">
             <Request/>
           </Route>
           <Route path="/approved">
@@ -45,7 +45,7 @@ function App() {
           <Route path="/account">
             <ManageAccount/>
           </Route>
-          <Route path="/request">
+          <Route path="/requestpage">
             <ActiveRequestPage />
           </Route>
         </Switch>

@@ -1,7 +1,6 @@
 const mongoose = require('mongoose')
-const researcher = require('./Researcher')
 
-const requestSchema = new mongoose.Schema({
+const approvedrequestSchema = new mongoose.Schema({
     status: {
         type: String,
         required: true,
@@ -42,4 +41,4 @@ const requestSchema = new mongoose.Schema({
    
 })
 
-module.exports = mongoose.model('Request', requestSchema)
+module.exports = mongoose.model('Approved', approvedrequestSchema)

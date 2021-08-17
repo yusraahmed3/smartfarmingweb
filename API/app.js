@@ -1,6 +1,9 @@
 const express = require('express');
 const mongoose = require('mongoose')
 const requestRoutes = require('./routes/requests')
+const approvedRoutes = require('./routes/approvedrequests')
+const rejectedRoutes = require('./routes/rejectedrequests')
+const researcherRoutes = require('./routes/researchers')
 const cors = require('cors')
 //import usersRoutes from './routes/users.js';
 
@@ -21,7 +24,10 @@ con.on('open', function(){
 app.use(cors());
 app.use(express.json())
 
+app.use('/researcher', researcherRoutes)
 app.use('/requests', requestRoutes)
+app.use('/approved', approvedRoutes)
+app.use('/rejected', rejectedRoutes)
 
 // app.use('/users', usersRoutes);
 

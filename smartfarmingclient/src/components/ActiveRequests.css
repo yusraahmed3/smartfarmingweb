@@ -26,17 +26,22 @@
     background-color: #b6dc76;
     cursor: pointer;
     color: #fff;
+    border: none;
+    text-decoration: none;
 }
 
-.icon1{
+.icon1 button{
+    background-color: transparent;
+    border: none;
+    margin-left: -80px;
     transform: scale(1.4);
-    display: flex;
-    flex: 0.5px;
     color:rgb(136, 236, 136);
 }
 
-.icon2{
-    flex: 15px;
+.icon2 button{
+    background-color: transparent;
+    border: none;
+    margin-right: 100px;
     transform: scale(1.4);
     color: rgb(248, 123, 123);
 }
