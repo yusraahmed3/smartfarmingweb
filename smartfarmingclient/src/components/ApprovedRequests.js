@@ -44,7 +44,7 @@ class ApprovedRequests extends Component {
               <ul className="activelist">
                 {this.state.approvedRequests.map((req) => (
                   <li className="listitems" key={req._id}>
-                    <div id="titles">{req.instname}</div>
+                    <div id="titles">{req.firstname}</div>
                     <div id="icons">
                       <EditIcon />
                     </div>
