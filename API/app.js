@@ -4,6 +4,7 @@ const requestRoutes = require('./routes/requests')
 const approvedRoutes = require('./routes/approvedrequests')
 const rejectedRoutes = require('./routes/rejectedrequests')
 const researcherRoutes = require('./routes/researchers')
+const userRoutes = require('./routes/users')
 const cors = require('cors')
 //import usersRoutes from './routes/users.js';
 
@@ -28,8 +29,8 @@ app.use('/researcher', researcherRoutes)
 app.use('/requests', requestRoutes)
 app.use('/approved', approvedRoutes)
 app.use('/rejected', rejectedRoutes)
+app.use('/user', userRoutes)
 
-// app.use('/users', usersRoutes);
 
 app.get('/', (req, res) => {
     res.send("we are on home");

@@ -1,0 +1,9 @@
+#icon2{
+    border: none;
+    background-color: transparent;
+    color: gray;
+}
+
+#icon2:hover{
+    color: rgb(94, 94, 94);
+}

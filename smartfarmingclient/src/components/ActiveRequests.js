@@ -65,7 +65,16 @@ class ActiveRequests extends Component {
     ).then(
       this.setState(axios.delete(`http://localhost:4000/requests/${req._id}`))
       
-    );
+    ).then(
+      axios({
+        method: "post",
+        url: "http://localhost:4000/user/register",
+        data: {
+          email: req.email,
+          password: req.password
+        }
+
+      }));
   };
 
   // detailPage(){

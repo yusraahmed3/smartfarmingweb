@@ -5,6 +5,7 @@ import LoginForm from './components/LoginForm'
 import About from './components/About';
 import Contact from './components/Contact';
 import Admin from './components/Admin';
+import User from './components/User'
 import Request from './components/Request';
 import ApprovedRequests from './components/ApprovedRequests';
 import RejectedRequests from './components/RejectedRequests';
@@ -47,6 +48,9 @@ function App() {
           </Route>
           <Route path="/requestpage">
             <ActiveRequestPage />
+          </Route>
+          <Route path="/userDash">
+            <User />s
           </Route>
         </Switch>
       </Router>

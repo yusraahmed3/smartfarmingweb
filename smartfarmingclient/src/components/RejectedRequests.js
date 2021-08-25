@@ -3,6 +3,7 @@ import Sidebar from './Sidebar'
 import './RejectedRequests.css'
 import EditIcon from '@material-ui/icons/Edit';
 import CircularProgress from "@material-ui/core/CircularProgress";
+import DeleteIcon from '@material-ui/icons/Delete';
 import axios from 'axios';
 
 
@@ -23,6 +24,10 @@ class RejectedRequests extends Component{
           loading: false,
         });
         console.log(response);
+      }
+
+      deleteRequest(id){
+        axios.delete(`http://localhost:4000/rejected/${id}`)
       }
 
     render(){
@@ -46,8 +51,12 @@ class RejectedRequests extends Component{
                 {this.state.rejectedRequests.map((req) => (
                   <li className="listitems" key={req._id}>
                     <div id="titles">{req.instname}</div>
-                    <div id="icons">
-                      <EditIcon />
+                    <div >
+                     <button id="icons"> <EditIcon /></button> 
+                     
+                    </div>
+                    <div >
+                    <button id="icon2" onClick={() => this.deleteRequest(req._id)}><DeleteIcon/></button>
                     </div>
                   </li>
                 ))}

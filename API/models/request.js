@@ -1,5 +1,4 @@
 const mongoose = require('mongoose')
-const researcher = require('./Researcher')
 
 const requestSchema = new mongoose.Schema({
     status: {
