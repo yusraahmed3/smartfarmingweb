@@ -15,9 +15,9 @@ function LoginForm (){
             password: password
         }).then(function (response) {
             console.log(response)
-            if(response.status ==  200){
+            if(response.status ===  200){
                 window.location = "/userDash"
-            }else if(response.status == 500 || response.status == 403){
+            }else if(response.status === 500 || response.status === 403){
                 window.location = "/"
             }
             history.push("/userDash")
@@ -33,7 +33,7 @@ function LoginForm (){
             <form className="login-form"> 
                 <input type="text" placeholder="Email" className='fieldcss' onChange={e => setEmail(e.target.value)}/><br/><br/>
                 <input type="password" placeholder="Password" className='fieldcss' onChange={e=> setPassword(e.target.value)}/><br/><br/>
-                <button type="submit" className='button-primary' onClick ={login}>Login</button><br/><br/>
+                <Link to="/adminDash"><button type="submit" className='button-primary' onClick ={login}>Login</button></Link><br/><br/>
                 <Link to="/request"><button className='button-outline' onClick={() =>console.log("button clicked")}>Request Data</button></Link>
             </form>
             </div>

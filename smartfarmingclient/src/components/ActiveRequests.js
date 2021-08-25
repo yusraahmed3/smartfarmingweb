@@ -12,7 +12,8 @@ function Requests({ request, index, approveRequest, rejectRequest }) {
   return (
     <ul className="activelist">
       <li className="listitems" key={index} >
-        <div className="title">{request.firstname}</div>
+        <div className="title">{request.firstname} {request.lastname}</div>
+        <div className="title">{request.instname}</div>
          <div className="icon1">
           <button onClick={() => approveRequest(request)}>
             <ThumbUpIcon />

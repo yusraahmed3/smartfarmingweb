@@ -1,11 +1,11 @@
 import React from 'react'
-import Animegirl from '../images/anime.jpg'
+import AvatarImg from '../images/avatar.png'
 import './Avatar.css'
 
 function Avatar() {
     return (
         <div className="avatarcss">
-            <img src={Animegirl} alt="anime"/>
+            <img src={AvatarImg} alt="anime"/>
         </div>
     )
 }
