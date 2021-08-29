@@ -6,14 +6,13 @@ const rejectedRoutes = require('./routes/rejectedrequests')
 const researcherRoutes = require('./routes/researchers')
 const userRoutes = require('./routes/users')
 const cors = require('cors')
-//import usersRoutes from './routes/users.js';
 
+const { DB, PORT } = require('./config');
 
-const url = 'mongodb://localhost/SmartfarmingDB'
 
 const app = express();
 
-mongoose.connect(url, {useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(DB, {useNewUrlParser: true, useUnifiedTopology: true })
 
 const con = mongoose.connection
 
@@ -38,4 +37,4 @@ app.get('/', (req, res) => {
 
 
 
-app.listen(4000)
+app.listen(PORT)
