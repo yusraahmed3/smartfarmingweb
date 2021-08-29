@@ -29,15 +29,7 @@ class Request extends Component {
     event.preventDefault();
 
     const url = 'http://localhost:4000/requests';
-    const data = {
-      firstname: this.state.firstname,
-      lastname: this.state.lastname,
-      phoneno: this.state.phoneno,
-      instname: this.state.instname,
-      email: this.state.email,
-      password: this.state.password,
-      message: this.state.message
-    };
+   
 
     axios({
         method: 'post',
@@ -53,7 +45,6 @@ class Request extends Component {
         }
     })
     .then((response) => {
-        
         console.log(response);
       }, (error) => {
         console.log(error);

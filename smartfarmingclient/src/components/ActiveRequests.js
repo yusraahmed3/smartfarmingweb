@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 import Sidebar from "./Sidebar";
-import { Link } from "react-router-dom";
 import axios from "axios";
 import "./ActiveRequests.css";
-import ApprovedRequests from './ApprovedRequests'
 import ThumbUpIcon from "@material-ui/icons/ThumbUp";
 import ThumbDownIcon from "@material-ui/icons/ThumbDown";
 import CircularProgress from "@material-ui/core/CircularProgress";

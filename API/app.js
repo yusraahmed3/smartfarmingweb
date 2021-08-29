@@ -6,7 +6,7 @@ const rejectedRoutes = require('./routes/rejectedrequests')
 const researcherRoutes = require('./routes/researchers')
 const userRoutes = require('./routes/users')
 const cors = require('cors')
-
+const passport = require('passport')
 const { DB, PORT } = require('./config');
 
 
@@ -23,6 +23,9 @@ con.on('open', function(){
 
 app.use(cors());
 app.use(express.json())
+app.use(passport.initialize());
+
+require('./middlewares/passport')(passport);
 
 app.use('/researcher', researcherRoutes)
 app.use('/requests', requestRoutes)

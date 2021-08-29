@@ -1,7 +1,6 @@
 import React from 'react'
 import Sidebar from './Sidebar'
 import './ManageAccount.css'
-import {SidebarData} from './SidebarData'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import SecurityIcon from '@material-ui/icons/Security';
 import SimCardIcon from '@material-ui/icons/SimCard';
