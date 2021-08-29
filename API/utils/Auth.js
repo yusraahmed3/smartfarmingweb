@@ -34,7 +34,7 @@ const userRegister = async (userDets, role, res) => {
 };
 
 const userLogin = async (userCreds, role, res) => {
-  console.log("Auth user")
+  console.log("Auth")
   let { email, password } = userCreds;
   const user = await User.findOne({ email });
   if (!user) {
@@ -44,12 +44,6 @@ const userLogin = async (userCreds, role, res) => {
     });
   }
 
-  if(user.role != role){
-      return res.status(403).json({
-          message: "Wrong portal",
-          success: false
-      })
-  }
 
   let isMatch = await bcrypt.compare(password, user.password);
   if (isMatch) {

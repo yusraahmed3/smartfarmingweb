@@ -16,7 +16,7 @@ router.get('/', async(req,res)=>{
 
 router.post('/login', async (req,res)=>{
     console.log("Inside login");
-    await userLogin(req.body,["user", "admin"], res);
+    await userLogin(req.body,"user", res);
     console.log("After logging in")
     //  const user = await User.findOne({ email: req.body.email }, (err, result) => {
     //     if (err) res.status(500).json({ msg: err });

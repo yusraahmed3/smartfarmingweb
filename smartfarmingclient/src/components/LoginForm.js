@@ -20,12 +20,14 @@ function LoginForm() {
       .then((response) => {
         console.log(response);
         if (response.status === 200) {
-          if (response.role === "admin") {
+          const roles  = response.data;
+          console.log(roles.role)
+          if( roles.role == "admin") {
             console.log("Youu are logged in");
             window.location = "/adminDash";
             history.push("/adminDash")
           }
-          else if(response.role === "user"){
+          else{
             console.log("You are inside user role")
             window.location = "userDash"
             history.push("/userDash");
