@@ -13,6 +13,8 @@ import ActiveRequests from './components/ActiveRequests';
 import ManageAccount from './components/ManageAccount';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import ActiveRequestPage from './components/ActiveRequestPage';
+import { ToastContainer } from 'react-toastify'
+
 function App() {
   return (
     <div className="App">
@@ -50,9 +52,10 @@ function App() {
             <ActiveRequestPage />
           </Route>
           <Route path="/userDash">
-            <User />s
+            <User />
           </Route>
         </Switch>
+        <ToastContainer autoClose={5000} />
       </Router>
 
     </div>

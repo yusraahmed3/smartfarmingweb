@@ -3,8 +3,10 @@ import Navbar from "./Navbar";
 import "./Request.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
-
+import {  toast } from 'react-toastify'; 
+import 'react-toastify/dist/ReactToastify.css'
 class Request extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -51,7 +53,7 @@ class Request extends Component {
         }
     })
     .then((response) => {
-        alert("Request sent! We'll get back to you asap.")
+        
         console.log(response);
       }, (error) => {
         console.log(error);
@@ -120,8 +122,14 @@ class Request extends Component {
     this.setState({ message: message });
   }
 
-  handleButtonClick() {
-    console.log(this.state.firstname);
+  handleButtonClick = () =>{
+    toast.configure();
+    toast.success("Request sent", {
+      position: "top-center",
+      autoClose: 5000,
+      pauseOnHover: true,
+      hideProgressBar: true
+    });
   }
 
   render() {
