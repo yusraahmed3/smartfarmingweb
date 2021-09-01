@@ -2,8 +2,18 @@ import AvatarImg from "../images/avatar.png";
 import React from "react";
 import "./Sidebar.css";
 import { SidebarData } from "./SidebarData";
+import DashboardIcon from "@material-ui/icons/Dashboard";
+import AccountBoxIcon from "@material-ui/icons/AccountBox";
+import ThumbUpIcon from "@material-ui/icons/ThumbUp";
+import ThumbDownIcon from "@material-ui/icons/ThumbDown";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 
 function Sidebar() {
+  const logout = () => {
+    localStorage.clear();
+    window.location.pathname = "/";
+  };
+
   return (
     <div className="sidebar">
       <div className="avatarcss">
@@ -11,7 +21,77 @@ function Sidebar() {
       </div>
       <hr className="linesep" />
       <ul className="sidebarlist">
-        {SidebarData.map((val, key) => {
+        <li
+          className="row"
+          id={window.location.pathname === "/adminDash" ? "active" : ""}
+          onClick={() => {
+            window.location.pathname = "/adminDash";
+          }}
+        >
+          <div id="icon">
+            <DashboardIcon />
+          </div>
+          <div id="title">Dashboard</div>
+        </li>
+        <li
+          className="row"
+          id={window.location.pathname === "/account" ? "active" : ""}
+          onClick={() => {
+            window.location.pathname = "/account";
+          }}
+        >
+          <div id="icon">
+            <AccountBoxIcon />
+          </div>
+          <div id="title">Manage account</div>
+        </li>
+        <li
+          className="row"
+          id={window.location.pathname === "/active" ? "active" : ""}
+          onClick={() => {
+            window.location.pathname = "/active";
+          }}
+        >
+          <div id="icon">
+            <DashboardIcon />
+          </div>
+          <div id="title">Active requests</div>
+        </li>
+        <li
+          className="row"
+          id={window.location.pathname === "/approved" ? "active" : ""}
+          onClick={() => {
+            window.location.pathname = "/approved";
+          }}
+        >
+          <div id="icon">
+            <ThumbUpIcon />
+          </div>
+          <div id="title">Approved requests</div>
+        </li>
+        <li
+          className="row"
+          id={window.location.pathname === "/rejected" ? "active" : ""}
+          onClick={() => {
+            window.location.pathname = "/rejected";
+          }}
+        >
+          <div id="icon">
+            <ThumbDownIcon />
+          </div>
+          <div id="title">Rejected requests</div>
+        </li>
+        <li
+          className="row"
+          id={window.location.pathname === "/" ? "active" : ""}
+          onClick={logout}
+        >
+          <div id="icon">
+            <ExitToAppIcon />
+          </div>
+          <div id="title">Log out</div>
+        </li>
+        {/* {SidebarData.map((val, key) => {
           return (
             <li
               key={key}
@@ -25,7 +105,7 @@ function Sidebar() {
               <div id="title">{val.title}</div>
             </li>
           );
-        })}
+        })} */}
       </ul>
     </div>
   );

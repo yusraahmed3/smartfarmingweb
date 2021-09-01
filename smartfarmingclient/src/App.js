@@ -15,6 +15,7 @@ import AccountDetail from './components/AccountDetail';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import ActiveRequestPage from './components/ActiveRequestPage';
 import { ToastContainer } from 'react-toastify'
+import UserManageAccount from './components/UserManageAccount';
 
 function App() {
   return (
@@ -48,6 +49,9 @@ function App() {
           </Route>
           <Route path="/account">
             <ManageAccount/>
+          </Route>
+          <Route path="/userAccount">
+            <UserManageAccount />
           </Route>
           <Route path="/requestpage">
             <ActiveRequestPage />

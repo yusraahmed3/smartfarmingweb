@@ -12,15 +12,15 @@ import { Component } from "react";
 import { Input, InputAdornment } from "@material-ui/core";
 import UserSidebar from './UserSidebar'
 
-function ManageAccount (){
+function UserManageAccount (){
 
-  const json = localStorage.getItem("admin");
+  const json = localStorage.getItem("user");
   const userID = JSON.parse(json);
 
  
   return (
     <>
-      <Sidebar />
+<UserSidebar />
       <div className="position">
         <div className="pagetitle">
           <h3>Manage Accounts</h3>
@@ -65,4 +65,4 @@ function ManageAccount (){
         }
 
 
-export default ManageAccount;
+export default UserManageAccount;
