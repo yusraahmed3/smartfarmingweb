@@ -2,6 +2,7 @@
 .activelist{
     list-style-type: none;
     margin-top: 80px;
+    flex: 0 0 200px;
 }
 
 .progresscircular{
@@ -12,6 +13,28 @@
     width: 70vw; 
     align-items: center;
     justify-content: center;
+}
+
+.title{
+    flex: 70%;
+}
+
+.scrollablecontent{
+    height: 120%;
+    overflow-y: scroll;
+}
+
+::-webkit-scrollbar{
+    width: 10px;
+}
+
+::-webkit-scrollbar-track{
+    background: #fff;
+}
+
+::-webkit-scrollbar-thumb{
+    background: #40916c;
+    border-radius: 25px;
 }
 
 .listitems{

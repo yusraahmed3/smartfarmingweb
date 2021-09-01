@@ -1,8 +1,8 @@
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const { SECRET } = require('../config')
-const passport = require('passport')
+const { SECRET } = require("../config");
+const passport = require("passport");
 
 const userRegister = async (userDets, role, res) => {
   try {
@@ -34,7 +34,7 @@ const userRegister = async (userDets, role, res) => {
 };
 
 const userLogin = async (userCreds, role, res) => {
-  console.log("Auth")
+  console.log("Auth");
   let { email, password } = userCreds;
   const user = await User.findOne({ email });
   if (!user) {
@@ -44,28 +44,34 @@ const userLogin = async (userCreds, role, res) => {
     });
   }
 
-
   let isMatch = await bcrypt.compare(password, user.password);
   if (isMatch) {
-    let token = jwt.sign({
-      user_id: user._id,
-      role: user.role,
-      email: user.email,
-    }, SECRET, { expiresIn: "7 days"});
+    let token = jwt.sign(
+      {
+        user_id: user._id,
+        role: user.role,
+        email: user.email,
+      },
+      SECRET,
+      { expiresIn: "7 days" }
+    );
 
     let result = {
-        email: user.email,
-        role: user.role,
-        token: `Bearer ${token}`,
-        expiresIn: 168
+      name: user.name,
+      phoneno: user.phoneno,
+      password: user.password,
+      email: user.email,
+      id: user._id,
+      role: user.role,
+      token: `Bearer ${token}`,
+      expiresIn: 168,
     };
 
     return res.status(200).json({
-        ...result,
-        message: "You are logged in!",
-        success: true
+      ...result,
+      message: "You are logged in!",
+      success: true,
     });
-
   } else {
     return res.status(403).json({
       message: "Email/Password Combination incorrect!",
@@ -79,6 +85,6 @@ const validateEmail = async (email) => {
   return user ? false : true;
 };
 
-const userAuth = passport.authenticate("jwt", { session: false })
+const userAuth = passport.authenticate("jwt", { session: false });
 
 module.exports = { userRegister, userLogin, userAuth };

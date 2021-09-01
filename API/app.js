@@ -31,7 +31,7 @@ app.use('/researcher', researcherRoutes)
 app.use('/requests', requestRoutes)
 app.use('/approved', approvedRoutes)
 app.use('/rejected', rejectedRoutes)
-app.use('/user', userRoutes)
+app.use('/users', userRoutes)
 
 
 app.get('/', (req, res) => {

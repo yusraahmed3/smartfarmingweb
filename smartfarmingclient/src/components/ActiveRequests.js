@@ -67,8 +67,10 @@ class ActiveRequests extends Component {
     ).then(
       axios({
         method: "post",
-        url: "http://localhost:4000/user/register",
+        url: "http://localhost:4000/users/register",
         data: {
+          name: req.firstname + " " + req.lastname,
+          phoneno: req.phoneno,
           email: req.email,
           password: req.password
         }
@@ -76,25 +78,8 @@ class ActiveRequests extends Component {
       }));
   };
 
-  // detailPage(){
-  //   return(
-  //     <ApprovedRequests />
-  //     // <div>
-      //   <Sidebar />
-      //   <ul>
-      //     <li>
-      //       {req.firstname}
-      //     </li>
-      //     <li>
-      //       {req.lastname}
-      //     </li>
-      //     <li>
-      //       {req.instname}
-      //     </li>
-      //   </ul>
-      // </div>
-  //   )
-  // }
+
+
   handleRejectButton = (req) => {
     console.log("Inside reject method");
     const url = "http://localhost:4000/rejected";
@@ -152,9 +137,11 @@ class ActiveRequests extends Component {
             <div className="pagetitle">
               <h3>Active Requests</h3>
             </div>
+            <div className="scrollablecontent">
             {this.state.requests.map((req, index) => (
               <Requests key={index} index={index} request={req} approveRequest={this.handleApproveButton} rejectRequest={this.handleRejectButton}/>
             ))}
+          </div>
           </div>
         </>
       );

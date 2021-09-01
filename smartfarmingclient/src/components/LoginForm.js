@@ -6,12 +6,13 @@ import axios from "axios";
 function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [user, setUser] = useState("");
   let history = useHistory();
 
   const login = (event) => {
     event.preventDefault();
     console.log("Inside log in");
-    const url = "http://localhost:4000/user/login";
+    const url = "http://localhost:4000/users/login";
     axios
       .post(url, {
         email: email,
@@ -21,15 +22,21 @@ function LoginForm() {
         console.log(response);
         if (response.status === 200) {
           const roles  = response.data;
+          console.log(roles)
           console.log(roles.role)
-          if( roles.role == "admin") {
+          if( roles.role === "admin") {
+            console.log(roles.id)
+            const json = JSON.stringify(roles)
+            localStorage.setItem('admin', json)
             console.log("Youu are logged in");
             window.location = "/adminDash";
             history.push("/adminDash")
           }
           else{
+            const jsonn = JSON.stringify(roles)
+            localStorage.setItem('user', jsonn)
             console.log("You are inside user role")
-            window.location = "userDash"
+           window.location = "userDash"
             history.push("/userDash");
           }
         } else if (response.status === 500 || response.status === 403) {
