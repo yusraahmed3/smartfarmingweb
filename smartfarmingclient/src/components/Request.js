@@ -3,10 +3,9 @@ import Navbar from "./Navbar";
 import "./Request.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
-import {  toast } from 'react-toastify'; 
-import 'react-toastify/dist/ReactToastify.css'
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 class Request extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -17,7 +16,7 @@ class Request extends Component {
       email: props.email,
       password: props.password,
       message: props.message,
-      // idimg: props.idimg,
+      idimg: "",
       loading: true,
     };
 
@@ -27,41 +26,55 @@ class Request extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-
-    const url = 'http://localhost:4000/requests';
-   
-
+    const formData = new FormData();
+    formData.append("firstname", this.state.firstname);
+    formData.append("lastname", this.state.lastname);
+    formData.append("phoneno", this.state.phoneno);
+    formData.append("instname", this.state.instname);
+    formData.append("email", this.state.email);
+    formData.append("password", this.state.password);
+    formData.append("message", this.state.message);
+    formData.append("idimg", this.state.idimg);
+    const url = "http://localhost:4000/requests";
     axios({
-        method: 'post',
-        url: url,
-        data: {
-            firstname: this.state.firstname,
-            lastname: this.state.lastname,
-            phoneno: this.state.phoneno,
-            instname: this.state.instname,
-            email: this.state.email,
-            password: this.state.password,
-            message: this.state.message
-        }
-    })
-    .then((response) => {
+      method: "post",
+      url: url,
+      data: formData,
+    }).then(
+      (response) => {
+        toast.configure();
+        toast.success("Request sent", {
+          position: "top-center",
+          autoClose: 5000,
+          pauseOnHover: true,
+          hideProgressBar: true,
+        });
         console.log(response);
-      }, (error) => {
+      },
+      (error) => {
         console.log(error);
-      });
+      }
+    );
 
-//     fetch(url, {
-//       method: "POST",
+    //     fetch(url, {
+    //       method: "POST",
 
-//       body: json(data), // data can be `string` or {object}!
+    //       body: json(data), // data can be `string` or {object}!
 
-//       headers: { "Content-Type": "application/json" },
-//     })
-//       .then((res) => res.json())
+    //       headers: { "Content-Type": "application/json" },
+    //     })
+    //       .then((res) => res.json())
 
-//       .catch((error) => console.error("Error:", error))
+    //       .catch((error) => console.error("Error:", error))
 
-//       .then((response) => console.log("Success:", response));
+    //       .then((response) => console.log("Success:", response));
+  }
+
+  handleFileChange(event) {
+    var filename = this.state.idimg;
+    filename = event.target.files[0];
+    console.log(filename);
+    this.setState({ idimg: filename });
   }
 
   handleFirstNameChanged(event) {
@@ -113,15 +126,7 @@ class Request extends Component {
     this.setState({ message: message });
   }
 
-  handleButtonClick = () =>{
-    toast.configure();
-    toast.success("Request sent", {
-      position: "top-center",
-      autoClose: 5000,
-      pauseOnHover: true,
-      hideProgressBar: true
-    });
-  }
+  handleButtonClick = () => {};
 
   render() {
     return (
@@ -129,7 +134,7 @@ class Request extends Component {
         <Navbar />
         <h3 className="reqtitle">Send us a request</h3>
         <div className="wrapper">
-          <form className="formdiv" onSubmit={this.handleSubmit}>
+          <form className="formdiv" onSubmit={this.handleSubmit} method="post" encType="multipart/form-data">
             <div className="formControl">
               <input
                 type="text"
@@ -188,12 +193,8 @@ class Request extends Component {
                 className="fieldcss2"
               />
               <label>Upload a clear view of your ID</label>
-              <input type="file" />
-              <button
-                className="reqbutton"
-                type="submit"
-                onClick={this.handleButtonClick.bind(this)}
-              >
+              <input type="file" name="image" onChange={this.handleFileChange.bind(this)} />
+              <button className="reqbutton" type="submit">
                 Send
               </button>
             </div>

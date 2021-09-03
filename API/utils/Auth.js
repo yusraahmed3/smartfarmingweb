@@ -4,19 +4,23 @@ const jwt = require("jsonwebtoken");
 const { SECRET } = require("../config");
 const passport = require("passport");
 
+
+
 const userRegister = async (userDets, role, res) => {
+  const url = userDets.protocol + '://' + userDets.get('host')
   try {
-    let emailNotRegistered = await validateEmail(userDets.email);
+    let emailNotRegistered = await validateEmail(userDets.body.email);
     if (!emailNotRegistered) {
       return res.status(400).json({
         message: "Email already registered. Try logging in instead",
         success: false,
       });
     }
-    const password = await bcrypt.hash(userDets.password, 12);
+    const password = await bcrypt.hash(userDets.body.password, 12);
 
     const newUser = new User({
-      ...userDets,
+      ...userDets.body,
+      idimg: url + '/public/' + userDets.file.filename,
       password,
       role,
     });
@@ -26,9 +30,10 @@ const userRegister = async (userDets, role, res) => {
       success: true,
     });
   } catch (err) {
+    console.log(err)
     return res.status(201).json({
       message: "User registeration failed!",
-      success: true,
+      success: false,
     });
   }
 };
@@ -61,6 +66,7 @@ const userLogin = async (userCreds, role, res) => {
       phoneno: user.phoneno,
       password: user.password,
       email: user.email,
+      idimg: user.idimg,
       id: user._id,
       role: user.role,
       token: `Bearer ${token}`,

@@ -11,7 +11,6 @@ import ApprovedRequests from './components/ApprovedRequests';
 import RejectedRequests from './components/RejectedRequests';
 import ActiveRequests from './components/ActiveRequests';
 import ManageAccount from './components/ManageAccount';
-import AccountDetail from './components/AccountDetail';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import ActiveRequestPage from './components/ActiveRequestPage';
 import { ToastContainer } from 'react-toastify'

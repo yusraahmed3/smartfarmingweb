@@ -37,6 +37,10 @@ const requestSchema = new mongoose.Schema({
     },
     idimg: {
         type: String,
+        required: true
+    },
+    photo: {
+        type: String
     }
    
 })

@@ -6,7 +6,6 @@ import axios from "axios";
 function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [user, setUser] = useState("");
   let history = useHistory();
 
   const login = (event) => {

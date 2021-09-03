@@ -12,6 +12,7 @@ const { DB, PORT } = require('./config');
 
 const app = express();
 
+mongoose.set('useFindAndModify', false);
 mongoose.connect(DB, {useNewUrlParser: true, useUnifiedTopology: true })
 
 const con = mongoose.connection
@@ -27,6 +28,7 @@ app.use(passport.initialize());
 
 require('./middlewares/passport')(passport);
 
+app.use('/public', express.static('public'));
 app.use('/researcher', researcherRoutes)
 app.use('/requests', requestRoutes)
 app.use('/approved', approvedRoutes)

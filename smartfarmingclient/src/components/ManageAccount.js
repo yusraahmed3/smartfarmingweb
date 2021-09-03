@@ -1,23 +1,40 @@
-import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useRef, useState } from "react";
 import Sidebar from "./Sidebar";
 import AvatarImg from "../images/avatar.png";
 import "./ManageAccount.css";
+import axios from "axios";
 import AddAPhotoIcon from "@material-ui/icons/AddAPhoto";
-import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-import SecurityIcon from "@material-ui/icons/Security";
-import SimCardIcon from "@material-ui/icons/SimCard";
-import EditIcon from '@material-ui/icons/Edit';
-import { Component } from "react";
+import EditIcon from "@material-ui/icons/Edit";
 import { Input, InputAdornment } from "@material-ui/core";
-import UserSidebar from './UserSidebar'
 
-function ManageAccount (){
-
+function ManageAccount() {
+  const inputField = useRef(null);
+  // const [name, setName] = useState("");
+  // const [phoneno, setPhoneno] = useState("");
+  // const [email, setEmail] = useState("");
+  const [image, setImage] = useState("");
   const json = localStorage.getItem("admin");
   const userID = JSON.parse(json);
 
- 
+  const handleImageFile = (e) => {
+    // console.log(e.target.files, "$$$$")
+    // console.log(e.target.files[0], "$$$$")
+    let file = e.target.files[0];
+    setImage(file);
+  };
+
+  const handleUpload = (e) => {
+    console.log(image);
+  };
+
+  const handleNameChange = () => {
+    inputField.current.focus();
+  };
+
+  const handlePhoneNoChange = () => {};
+
+  const handleEmailChange = () => {};
+
   return (
     <>
       <Sidebar />
@@ -25,44 +42,83 @@ function ManageAccount (){
         <div className="pagetitle">
           <h3>Manage Accounts</h3>
         </div>
-        <div className="scrollerview">
           <div className="avatar">
-            <img src={AvatarImg} alt="anime" />
+            <img src={userID.idimg} alt="anime" />
             <div>
-              <button className="propicbutton">
-                <AddAPhotoIcon className="picicon" /> Set profile picture
-              </button>
+              <input
+                type="file"
+                className="propicbutton"
+                onChange={(e) => handleImageFile(e)}
+                onClick={(e) => handleUpload(e)}
+              />
             </div>
           </div>
           <hr />
-          <div className="wrapperelement" >
+          <div className="wrapperelement">
             <form className="editform">
-              <Input value={userID.name} className="inputfield" endAdornment={<InputAdornment position="end"><EditIcon/></InputAdornment>}/>
-              <Input value={userID.phoneno} className="inputfield" endAdornment={<InputAdornment position="end"><EditIcon/></InputAdornment>}/>
-              <Input value={userID.email} className="inputfield" endAdornment={<InputAdornment position="end"><EditIcon/></InputAdornment>}/>
+              <div className="group-control">
+                <label>Name </label>
+                <Input
+                  value={userID.name}
+                  ref={inputField}
+                  className="inputfield"
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <button
+                        className="editiconbutton"
+                        onClick={handleNameChange}
+                      >
+                        <EditIcon />
+                      </button>
+                    </InputAdornment>
+                  }
+                />
+              </div>
+              <div className="group-control">
+                <label>Phone number </label>
+                <Input
+                  value={userID.phoneno}
+                  onChange={handlePhoneNoChange}
+                  className="inputfield"
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <button className="editiconbutton">
+                        <EditIcon />
+                      </button>
+                    </InputAdornment>
+                  }
+                />
+              </div>
+              <div className="group-control">
+                <label>Email </label>
+                <Input
+                  value={userID.email}
+                  onChange={handleEmailChange}
+                  className="inputfield"
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <button className="editiconbutton">
+                        <EditIcon />
+                      </button>
+                    </InputAdornment>
+                  }
+                />
+                </div>
+                {/* <br/>
+                <div className="group-control"></div>
+                <div className="idimgdiv">
+                  <span>ID </span>
+                  <img src={userID.idimg} alt="some" className="idimgcss" />
+                </div>
+              </div> */}
               {/* <input value="something for now" className="inputfield" />
               <input value="something for now" className="inputfield"/>
               <input value="something for now" className="inputfield"/> */}
             </form>
           </div>
         </div>
-      </div>
-      {/* <div className="menudiv">
-                <ul className="menulist">
-                    <li className="listitem">
-                   <Link to="/accountsettings"><div className="icon"> <AccountCircleIcon /></div><div className="title">Account Settings</div></Link> 
-                    </li>
-                    <li className="listitem">
-                    <div className="icon"> <SecurityIcon /></div><div className="title">Security</div>
-                    </li>
-                    <li className="listitem">
-                       <div className="icon"> <SimCardIcon /></div><div className="title">Change number</div>
-                    </li>
-                </ul>
-            </div> */}
     </>
   );
-        }
-
+}
 
 export default ManageAccount;
