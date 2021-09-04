@@ -6,6 +6,7 @@ import axios from "axios";
 import AddAPhotoIcon from "@material-ui/icons/AddAPhoto";
 import EditIcon from "@material-ui/icons/Edit";
 import { Input, InputAdornment } from "@material-ui/core";
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 function ManageAccount() {
   const inputField = useRef(null);
@@ -16,11 +17,18 @@ function ManageAccount() {
   const json = localStorage.getItem("admin");
   const userID = JSON.parse(json);
 
-  const handleImageFile = (e) => {
+   const handleImageFile = (e) => {
     // console.log(e.target.files, "$$$$")
     // console.log(e.target.files[0], "$$$$")
-    let file = e.target.files[0];
+    var file = e.target.files[0];
+    console.log(file)
     setImage(file);
+    var fd = new FormData()
+    fd.append("idimg", image)
+    const url = `http://localhost:4000/users/photo/${userID.id}`
+    console.log(userID.id)
+    axios.patch(url, fd)
+    console.log("image now"+image)
   };
 
   const handleUpload = (e) => {
@@ -43,16 +51,20 @@ function ManageAccount() {
           <h3>Manage Accounts</h3>
         </div>
           <div className="avatar">
+            {/* <AccountCircleIcon src={userID.idimg}/> */}
             <img src={userID.idimg} alt="anime" />
             <div>
               <input
                 type="file"
                 className="propicbutton"
-                onChange={(e) => handleImageFile(e)}
-                onClick={(e) => handleUpload(e)}
+                name="image"
+                accept="image/*"
+                multiple={false}
+                onChange={handleImageFile.bind(true)}
+                
               />
             </div>
-          </div>
+            </div>
           <hr />
           <div className="wrapperelement">
             <form className="editform">

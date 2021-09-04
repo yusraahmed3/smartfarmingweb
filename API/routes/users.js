@@ -1,36 +1,37 @@
 const express = require("express");
 const User = require("../models/user.js");
 const { userRegister, userLogin, userAuth } = require("../utils/Auth");
-const multer = require('multer')
-const uuid = require('uuid').v4
+const multer = require("multer");
+const uuid = require("uuid").v4;
 const router = express.Router();
 
-
-const DIR = './public/';
+const DIR = "./public/";
 
 const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, DIR);
-    },
-    filename: (req, file, cb) => {
-        const fileName = file.originalname.toLowerCase().split(' ').join('-');
-        cb(null, uuid() + '-' + fileName)
-    }
+  destination: (req, file, cb) => {
+    cb(null, DIR);
+  },
+  filename: (req, file, cb) => {
+    const fileName = file.originalname.toLowerCase().split(" ").join("-");
+    cb(null, uuid() + "-" + fileName);
+  },
 });
 
-
-var upload =multer({
-    storage: storage,
-    fileFilter: (req, file, cb) => {
-        if (file.mimetype == "image/png" || file.mimetype == "image/jpg" || file.mimetype == "image/jpeg"){
-            cb(null, true)
-        }else{
-            cb(null, false);
-            return cb(new Error('Only .png, .jpg and .jpeg format allowed!'));
-        }
+var upload = multer({
+  storage: storage,
+  fileFilter: (req, file, cb) => {
+    if (
+      file.mimetype == "image/png" ||
+      file.mimetype == "image/jpg" ||
+      file.mimetype == "image/jpeg"
+    ) {
+      cb(null, true);
+    } else {
+      cb(null, false);
+      return cb(new Error("Only .png, .jpg and .jpeg format allowed!"));
     }
-})
-
+  },
+});
 
 router.get("/", async (req, res) => {
   try {
@@ -74,7 +75,7 @@ router.post("/login", async (req, res) => {
 //   await userLogin(req.body, "admin", res);
 // });
 
-router.post("/register", upload.single('idimg'), async (req, res) => {
+router.post("/register", upload.single("idimg"), async (req, res) => {
   console.log("Inside the register");
   await userRegister(req, "user", res);
   // const user = new User({
@@ -94,7 +95,7 @@ router.post("/register", upload.single('idimg'), async (req, res) => {
 });
 
 router.patch("/updatename/:id", async (req, res) => {
-  console.log("Inside change name method")
+  console.log("Inside change name method");
   try {
     const user = await User.findByIdAndUpdate(
       req.params.id,
@@ -108,7 +109,7 @@ router.patch("/updatename/:id", async (req, res) => {
 });
 
 router.patch("/updatephone/:id", async (req, res) => {
-  console.log("Inside change phone number method")
+  console.log("Inside change phone number method");
   try {
     const user = await User.findByIdAndUpdate(
       req.params.id,
@@ -122,7 +123,7 @@ router.patch("/updatephone/:id", async (req, res) => {
 });
 
 router.patch("/updateemail/:id", async (req, res) => {
-  console.log("Inside change email method")
+  console.log("Inside change email method");
   try {
     const user = await User.findByIdAndUpdate(
       req.params.id,
@@ -135,6 +136,22 @@ router.patch("/updateemail/:id", async (req, res) => {
   }
 });
 
+router.patch("/photo/:id", upload.single("idimg"), async (req, res, err) => {
+  console.log("Inside photo update")
+  try {
+    const id = req.params.id;
+    const url = req.protocol + "://" + req.get("host");
+    const updatedImg = url + "/public/" + req.file.filename;
+    const upImage = await User.findByIdAndUpdate(
+      id,
+      { $set: { idimg: updatedImg } },
+      { new: true }
+    );
+    return res.json(upImage);
+  } catch (err) {
+    console.log(err);
+  }
+});
 
 // router.post("/admin-register", upload.single('idimg'), async (req, res) => {
 //   const url = req.protocol + '://' + req.get('host')
