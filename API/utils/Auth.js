@@ -5,9 +5,7 @@ const { SECRET } = require("../config");
 const passport = require("passport");
 
 
-
 const userRegister = async (userDets, role, res) => {
-  const url = userDets.protocol + '://' + userDets.get('host')
   try {
     let emailNotRegistered = await validateEmail(userDets.body.email);
     if (!emailNotRegistered) {
@@ -20,7 +18,6 @@ const userRegister = async (userDets, role, res) => {
 
     const newUser = new User({
       ...userDets.body,
-      idimg: url + '/public/' + userDets.file.filename,
       password,
       role,
     });
@@ -30,7 +27,7 @@ const userRegister = async (userDets, role, res) => {
       success: true,
     });
   } catch (err) {
-    console.log(err)
+    console.log(err);
     return res.status(201).json({
       message: "User registeration failed!",
       success: false,
@@ -43,6 +40,7 @@ const userLogin = async (userCreds, role, res) => {
   let { email, password } = userCreds;
   const user = await User.findOne({ email });
   if (!user) {
+    console.log("Error")
     return res.status(404).json({
       message: "Email/Password combination incorrect!",
       succes: false,
@@ -51,34 +49,50 @@ const userLogin = async (userCreds, role, res) => {
 
   let isMatch = await bcrypt.compare(password, user.password);
   if (isMatch) {
-    let token = jwt.sign(
+    jwt.sign(
       {
         user_id: user._id,
         role: user.role,
         email: user.email,
       },
       SECRET,
-      { expiresIn: "7 days" }
+      { expiresIn: 3600 },
+      (err, token) => {
+        if (err) throw err;
+        res.json({
+          token,
+          result: {
+            name: user.name,
+            phoneno: user.phoneno,
+            password: user.password,
+            email: user.email,
+            idimg: user.idimg,
+            id: user._id,
+            role: user.role,
+          },
+        });
+      }
     );
 
-    let result = {
-      name: user.name,
-      phoneno: user.phoneno,
-      password: user.password,
-      email: user.email,
-      idimg: user.idimg,
-      id: user._id,
-      role: user.role,
-      token: `Bearer ${token}`,
-      expiresIn: 168,
-    };
+    // let result = {
+    //   name: user.name,
+    //   phoneno: user.phoneno,
+    //   password: user.password,
+    //   email: user.email,
+    //   idimg: user.idimg,
+    //   id: user._id,
+    //   role: user.role,
+    //   token: `Bearer ${token}`,
+    //   expiresIn: 168,
+    // };
 
-    return res.status(200).json({
-      ...result,
-      message: "You are logged in!",
-      success: true,
-    });
+    // return res.status(200).json({
+    //   ...result,
+    //   message: "You are logged in!",
+    //   success: true,
+    // });
   } else {
+    console.log("Error2")
     return res.status(403).json({
       message: "Email/Password Combination incorrect!",
       succes: false,

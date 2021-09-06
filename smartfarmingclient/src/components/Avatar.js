@@ -2,10 +2,13 @@ import React from 'react'
 import AvatarImg from '../images/avatar.png'
 import './Avatar.css'
 
-function Avatar() {
+function Avatar(props) {
+
+    const json = localStorage.getItem("user");
+  const userID = JSON.parse(json);
     return (
-        <div className="avatarcss">
-            <img src={AvatarImg} alt="anime"/>
+        <div className="boxedSidebar">
+            <img className="avatarSidebar" src={props.imageAvatar} alt="anime"/>
         </div>
     )
 }

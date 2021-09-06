@@ -39,6 +39,10 @@
 }
 
 
+.toasterror{
+    background: red;
+}
+
 .button-outline{
     border: 1px solid #3e8914;
     background-color: transparent;

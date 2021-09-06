@@ -5,7 +5,7 @@ import DashboardIcon from "@material-ui/icons/Dashboard";
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 
-function UserSidebar() {
+function UserSidebar(props) {
   const logout = () => {
     localStorage.clear();
     window.location.pathname = "/";
@@ -13,7 +13,7 @@ function UserSidebar() {
 
   return (
     <div className="sidebar">
-      <Avatar />
+      <Avatar imageAvatar={props.image} />
       <hr className="linesep" />
       <ul className="sidebarlist">
         <li

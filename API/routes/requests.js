@@ -38,7 +38,22 @@ router.get('/', async(req,res)=>{
     }
 })
 
+router.get('/approved', async(req, res) => {
+    try{
+        
+        const reqs = await Request.findOne({status: "approved"})
+        res.json(reqs)
+    }catch(err){
+        res.send("Error" + err)
+    }
+})
 
+router.get('/rejected', async(req, res) => {
+    try{
+        const reqs = await Request.findOne({status: "rejected"})
+        res.json(reqs)
+    }catch(err) {throw err}
+})
 
 
 router.post('/', upload.single('idimg') , async(req, res, next)=>{
@@ -75,17 +90,32 @@ router.get("/:id", async(req, res) =>{
     }
 })
 
-router.patch("/:id", async(req, res) =>{
-    try{
-        const request = await Request.findById(req.params.id)
-        request.password = req.body.password
-        const a2 = await request.save()
-        res.json(a2)
-    }catch(err){
-        console.log(err)
-        res.send("error")
+router.patch("/status/:id", async (req, res) => {
+    console.log("Inside change status");
+    try {
+      const request = await Request.findByIdAndUpdate(
+        req.params.id,
+        { $set: { status: req.body.status } },
+        { new: true }
+      );
+      res.json(request);
+    } catch (err) {
+      console.log(err);
     }
-})
+  });
+  
+
+// router.patch("/status/:id", async(req, res) =>{
+//     try{
+//         const request = await Request.findById(req.params.id)
+//         request.status = req.body.status
+//         const a2 = await request.save()
+//         res.json(a2)
+//     }catch(err){
+//         console.log(err)
+//         res.send("error")
+//     }
+// })
 
 router.delete('/:id', async(req,res)=>{
     try{

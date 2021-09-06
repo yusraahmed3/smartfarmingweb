@@ -52,9 +52,7 @@ function App() {
           <Route path="/userAccount">
             <UserManageAccount />
           </Route>
-          <Route path="/requestpage">
-            <ActiveRequestPage />
-          </Route>
+          <Route path="/requestpage" render={(props) => <ActiveRequestPage {...props}/>}/>
           <Route path="/userDash">
             <User />
           </Route>

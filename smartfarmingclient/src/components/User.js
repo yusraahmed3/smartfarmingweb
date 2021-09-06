@@ -4,9 +4,12 @@ import './User.css'
 import SearchBar from './SearchBar'
 import Cards from './Cards'
 function User() {
+    const json = localStorage.getItem("user");
+    const userID = JSON.parse(json);
+  
     return (
         <>
-        <UserSidebar />
+        <UserSidebar image={userID.idimg}/>
         <div className="position">
         <div className="pagetitle">
              <h3>Dashboard</h3>

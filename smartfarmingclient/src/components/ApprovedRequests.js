@@ -5,7 +5,12 @@ import EditIcon from "@material-ui/icons/Edit";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import axios from 'axios';
 
+const json = localStorage.getItem("admin");
+ const userID = JSON.parse(json);  
+  
+
 class ApprovedRequests extends Component {
+   
   constructor(props) {
     super(props);
     this.state = {
@@ -25,6 +30,7 @@ class ApprovedRequests extends Component {
   }
 
   render() {
+
     if (this.state.loading || !this.state.approvedRequests) {
       return (
         <>
@@ -33,25 +39,60 @@ class ApprovedRequests extends Component {
         </>
       );
     } else {
+      const json = localStorage.getItem("admin");
+      const userID = JSON.parse(json);
       return (
         <>
-          <Sidebar />
+          <Sidebar image={userID.idimg}/>
           <div className="position">
             <div className="pagetitle">
               <h3>Approved Requests</h3>
             </div>
-            <div>
-              <ul className="activelist">
+            <div className="scrollablecontent">
+              
+              <table>
+                <tr>
+                  <th>
+                    Requester Name
+                  </th>
+                  <th>
+                    Instituition Name
+                  </th>
+                  <th>
+                    Status
+                  </th>
+                  <th>
+                    Actions
+                  </th>
+                </tr>
                 {this.state.approvedRequests.map((req) => (
-                  <li className="listitems" key={req._id}>
+                <tr className="hoverablerow">
+                  <td>
+                    {req.firstname} {req.lastname}
+                  </td>
+                  <td>
+                    {req.instname}
+                  </td>
+                  <td>
+                    {req.status}
+                  </td>
+                  <td>
+                    <button id="icons">
+                      <EditIcon />
+                      </button>
+                  </td>
+                </tr>
+                  ))}
+              </table>
+                
+                  {/* <li className="listitems" key={req._id}>
                     <div id="titles">{req.firstname} {req.lastname}</div>
                     <div id="titles">{req.instname}</div>
                     <div id="icons">
                       <EditIcon />
                     </div>
-                  </li>
-                ))}
-              </ul>
+                  </li> */}
+              
             </div>
           </div>
         </>

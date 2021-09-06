@@ -26,7 +26,7 @@ app.use(cors());
 app.use(express.json())
 app.use(passport.initialize());
 
-require('./middlewares/passport')(passport);
+//require('./middlewares/passport')(passport);
 
 app.use('/public', express.static('public'));
 app.use('/researcher', researcherRoutes)

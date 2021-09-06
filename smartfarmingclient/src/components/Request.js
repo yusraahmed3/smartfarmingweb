@@ -134,7 +134,12 @@ class Request extends Component {
         <Navbar />
         <h3 className="reqtitle">Send us a request</h3>
         <div className="wrapper">
-          <form className="formdiv" onSubmit={this.handleSubmit} method="post" encType="multipart/form-data">
+          <form
+            className="formdiv"
+            onSubmit={this.handleSubmit}
+            method="post"
+            encType="multipart/form-data"
+          >
             <div className="formControl">
               <input
                 type="text"
@@ -193,7 +198,13 @@ class Request extends Component {
                 className="fieldcss2"
               />
               <label>Upload a clear view of your ID</label>
-              <input type="file" name="image" onChange={this.handleFileChange.bind(this)} />
+              <input
+              type="file"
+                name="image"
+                accept="image/*"
+                multiple={false}
+                onChange={this.handleFileChange.bind(this)}
+              />
               <button className="reqbutton" type="submit">
                 Send
               </button>

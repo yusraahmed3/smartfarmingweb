@@ -4,6 +4,7 @@ const { userRegister, userLogin, userAuth } = require("../utils/Auth");
 const multer = require("multer");
 const uuid = require("uuid").v4;
 const router = express.Router();
+const auth = require("../middlewares/passport");
 
 const DIR = "./public/";
 
@@ -32,6 +33,13 @@ var upload = multer({
     }
   },
 });
+
+
+router.get('/protected', auth, (req, res)=>{
+  res.status(200).json({
+    msg: "Authorized"
+  })
+})
 
 router.get("/", async (req, res) => {
   try {
@@ -75,7 +83,7 @@ router.post("/login", async (req, res) => {
 //   await userLogin(req.body, "admin", res);
 // });
 
-router.post("/register", upload.single("idimg"), async (req, res) => {
+router.post("/register", async (req, res) => {
   console.log("Inside the register");
   await userRegister(req, "user", res);
   // const user = new User({

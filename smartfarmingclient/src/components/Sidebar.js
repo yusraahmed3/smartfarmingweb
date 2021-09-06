@@ -1,13 +1,14 @@
 import AvatarImg from "../images/avatar.png";
 import React from "react";
 import "./Sidebar.css";
+import Avatar from './Avatar'
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import ThumbUpIcon from "@material-ui/icons/ThumbUp";
 import ThumbDownIcon from "@material-ui/icons/ThumbDown";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 
-function Sidebar() {
+function Sidebar(props) {
   const logout = () => {
     localStorage.clear();
     window.location.pathname = "/";
@@ -16,9 +17,7 @@ function Sidebar() {
 
   return (
     <div className="sidebar">
-      <div className="avatarcss">
-        <img src={AvatarImg} alt="anime" />
-      </div>
+      <Avatar imageAvatar={props.image} />
       <hr className="linesep" />
       <ul className="sidebarlist">
         <li

@@ -4,10 +4,13 @@ import './Admin.css'
 import SearchBar from './SearchBar'
 import Cards from './Cards'
 function Admin() {
+    const json = localStorage.getItem("admin");
+    const userID = JSON.parse(json);
+  
 
     return (
         <>
-        <Sidebar />
+        <Sidebar image={userID.idimg} />
         <div className="position">
         <div className="pagetitle">
              <h3>Dashboard</h3>

@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import "./LoginForm.css";
 import axios from "axios";
-
+import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -20,7 +21,7 @@ function LoginForm() {
       .then((response) => {
         console.log(response);
         if (response.status === 200) {
-          const roles  = response.data;
+          const roles  = response.data.result;
           console.log(roles)
           console.log(roles.role)
           if( roles.role === "admin") {
@@ -38,13 +39,19 @@ function LoginForm() {
            window.location = "userDash"
             history.push("/userDash");
           }
-        } else if (response.status === 500 || response.status === 403) {
-          window.location = "/";
+        } else if (response.status === 404 || response.status === 403) {
+          console.log("Unauthorized")
         }
         
       })
       .catch((err) => {
-        console.log(err);
+        toast.configure();
+        toast.error("Username/password incorrect!", {
+          position: "top-center",
+          autoClose: 5000,
+          pauseOnHover: true,
+          hideProgressBar: true,
+        });
       });
   };
 
