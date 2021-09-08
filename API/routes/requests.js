@@ -38,22 +38,22 @@ router.get('/', async(req,res)=>{
     }
 })
 
-router.get('/approved', async(req, res) => {
-    try{
+// router.get('/approved', async(req, res) => {
+//     try{
         
-        const reqs = await Request.findOne({status: "approved"})
-        res.json(reqs)
-    }catch(err){
-        res.send("Error" + err)
-    }
-})
+//         const reqs = await Request.findOne({status: "approved"})
+//         res.json(reqs)
+//     }catch(err){
+//         res.send("Error" + err)
+//     }
+// })
 
-router.get('/rejected', async(req, res) => {
-    try{
-        const reqs = await Request.findOne({status: "rejected"})
-        res.json(reqs)
-    }catch(err) {throw err}
-})
+// router.get('/rejected', async(req, res) => {
+//     try{
+//         const reqs = await Request.findOne({status: "rejected"})
+//         res.json(reqs)
+//     }catch(err) {throw err}
+// })
 
 
 router.post('/', upload.single('idimg') , async(req, res, next)=>{
@@ -93,16 +93,20 @@ router.get("/:id", async(req, res) =>{
 router.patch("/status/:id", async (req, res) => {
     console.log("Inside change status");
     try {
-      const request = await Request.findByIdAndUpdate(
+        console.log(req.body.status)
+      const approved = await Request.findByIdAndUpdate(
         req.params.id,
         { $set: { status: req.body.status } },
-        { new: true }
+        {new : true}
       );
-      res.json(request);
+      console.log("Haha 1")
+      res.json(approved);
+      console.log("haha 2")
     } catch (err) {
-      console.log(err);
+      console.log("Error " + err);
     }
   });
+
   
 
 // router.patch("/status/:id", async(req, res) =>{

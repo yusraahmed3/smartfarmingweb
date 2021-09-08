@@ -1,65 +1,69 @@
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import './App.css';
-import Navbar from './components/Navbar'
-import LoginForm from './components/LoginForm'
-import About from './components/About';
-import Contact from './components/Contact';
-import Admin from './components/Admin';
-import User from './components/User'
-import Request from './components/Request';
-import ApprovedRequests from './components/ApprovedRequests';
-import RejectedRequests from './components/RejectedRequests';
-import ActiveRequests from './components/ActiveRequests';
-import ManageAccount from './components/ManageAccount';
-import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import ActiveRequestPage from './components/ActiveRequestPage';
-import { ToastContainer } from 'react-toastify'
-import UserManageAccount from './components/UserManageAccount';
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import "./App.css";
+import Navbar from "./components/Navbar";
+import LoginForm from "./components/LoginForm";
+import About from "./components/About";
+import Contact from "./components/Contact";
+import Admin from "./components/Admin";
+import User from "./components/User";
+import Request from "./components/Request";
+import ApprovedRequests from "./components/ApprovedRequests";
+import RejectedRequests from "./components/RejectedRequests";
+import ActiveRequests from "./components/ActiveRequests";
+import ManageAccount from "./components/ManageAccount";
+import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+import ActiveRequestPage from "./components/ActiveRequestPage";
+import { ToastContainer } from "react-toastify";
+import UserManageAccount from "./components/UserManageAccount";
+import ApprovedDetail from "./components/ApprovedDetail";
 
 function App() {
   return (
     <div className="App">
       <Router>
         <Switch>
-          <Route exact path ="/">
-          <Navbar />
-          <LoginForm />
+          <Route exact path="/">
+            <Navbar />
+            <LoginForm />
           </Route>
           <Route path="/about">
             <About />
           </Route>
           <Route path="/contact">
-            <Contact/>
+            <Contact />
           </Route>
           <Route path="/adminDash">
-            <Admin/>
+            <Admin />
           </Route>
           <Route path="/request">
-            <Request/>
+            <Request />
           </Route>
           <Route path="/approved">
-            <ApprovedRequests/>
+            <ApprovedRequests />
           </Route>
           <Route path="/rejected">
-            <RejectedRequests/>
+            <RejectedRequests />
           </Route>
           <Route path="/active">
-            <ActiveRequests/>
+            <ActiveRequests />
           </Route>
           <Route path="/account">
-            <ManageAccount/>
+            <ManageAccount />
           </Route>
           <Route path="/userAccount">
             <UserManageAccount />
           </Route>
-          <Route path="/requestpage" render={(props) => <ActiveRequestPage {...props}/>}/>
+          <Route
+            path="/requestpage"
+            render={(props) => <ActiveRequestPage {...props} />}
+          />
+          <Route path="/approvedpage" render={(props) => <ApprovedDetail {...props}/>}/>
           <Route path="/userDash">
             <User />
           </Route>
         </Switch>
         <ToastContainer autoClose={5000} />
       </Router>
-
     </div>
   );
 }

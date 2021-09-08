@@ -1,16 +1,18 @@
 import React, { Component } from "react";
 import Sidebar from "./Sidebar";
 import "./ApprovedRequests.css";
-import EditIcon from "@material-ui/icons/Edit";
+import { withRouter } from "react-router";
+// import EditIcon from "@material-ui/icons/Edit";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import axios from 'axios';
-
+import axios from "axios";
+import NotInterestedIcon from "@material-ui/icons/NotInterested";
+import MoreVertIcon from "@material-ui/icons/MoreVert";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const json = localStorage.getItem("admin");
- const userID = JSON.parse(json);  
-  
+const userID = JSON.parse(json);
 
 class ApprovedRequests extends Component {
-   
   constructor(props) {
     super(props);
     this.state = {
@@ -29,8 +31,61 @@ class ApprovedRequests extends Component {
     console.log(response);
   }
 
-  render() {
+  handleMoreDetailButton = (req) => {
+    this.props.history.push({pathname: '/approvedpage', state: { approved: req}})
+  }
 
+  handleRevokeRequest = (request) => {
+    console.log("Inside revoke method");
+    axios
+      .patch(`http://localhost:4000/approved/status/${request._id}`, {
+        status: "rejected",
+      })
+      .then((res) =>
+        axios({
+          method: "post",
+          url: "http://localhost:4000/rejected",
+          data: {
+            firstname: res.data.firstname,
+            lastname: res.data.lastname,
+            phoneno: res.data.phoneno,
+            instname: res.data.instname,
+            email: res.data.email,
+            password: res.data.password,
+            message: res.data.message,
+            status: res.data.status,
+            idimg: res.data.idimg,
+          },
+        })
+      )
+      .then(
+        (response) => {
+          toast.configure();
+          toast.success("Request Revoked!", {
+            position: "top-center",
+            autoClose: 5000,
+            pauseOnHover: true,
+            hideProgressBar: true,
+          });
+          console.log("Request rejected!");
+          console.log(response);
+        },
+        (error) => {
+          toast.configure();
+          toast.error("Request rejection failed!", {
+            position: "top-center",
+            autoClose: 5000,
+            pauseOnHover: true,
+            hideProgressBar: true,
+          });
+          console.log(error);
+        }
+      )
+      .then(axios.delete(`http://localhost:4000/users/${request._id}`))
+      .then(axios.delete(`http://localhost:4000/approved/${request._id}`));
+  };
+
+  render() {
     if (this.state.loading || !this.state.approvedRequests) {
       return (
         <>
@@ -43,56 +98,42 @@ class ApprovedRequests extends Component {
       const userID = JSON.parse(json);
       return (
         <>
-          <Sidebar image={userID.idimg}/>
+          <Sidebar image={userID.idimg} />
           <div className="position">
             <div className="pagetitle">
               <h3>Approved Requests</h3>
             </div>
             <div className="scrollablecontent">
-              
               <table>
+                <tbody>
                 <tr>
-                  <th>
-                    Requester Name
-                  </th>
-                  <th>
-                    Instituition Name
-                  </th>
-                  <th>
-                    Status
-                  </th>
-                  <th>
-                    Actions
-                  </th>
+                  <th>Requester Name</th>
+                  <th>Instituition Name</th>
+                  <th>Status</th>
+                  <th>Actions</th>
                 </tr>
                 {this.state.approvedRequests.map((req) => (
-                <tr className="hoverablerow">
-                  <td>
-                    {req.firstname} {req.lastname}
-                  </td>
-                  <td>
-                    {req.instname}
-                  </td>
-                  <td>
-                    {req.status}
-                  </td>
-                  <td>
-                    <button id="icons">
-                      <EditIcon />
+                  <tr className="hoverablerow" key={req._id}>
+                    <td>
+                      {req.firstname} {req.lastname}
+                    </td>
+                    <td>{req.instname}</td>
+                    <td>{req.status}</td>
+                    <td>
+                      <button id="icons" onClick={() => this.handleMoreDetailButton(req)}>
+                        <MoreVertIcon />
                       </button>
-                  </td>
-                </tr>
-                  ))}
+                      <button
+                        id="icons2"
+                        onClick={() => this.handleRevokeRequest(req._id)}
+                      >
+                        <NotInterestedIcon />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+                </tbody>
               </table>
-                
-                  {/* <li className="listitems" key={req._id}>
-                    <div id="titles">{req.firstname} {req.lastname}</div>
-                    <div id="titles">{req.instname}</div>
-                    <div id="icons">
-                      <EditIcon />
-                    </div>
-                  </li> */}
-              
             </div>
           </div>
         </>
@@ -101,4 +142,4 @@ class ApprovedRequests extends Component {
   }
 }
 
-export default ApprovedRequests;
+export default withRouter(ApprovedRequests);

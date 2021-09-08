@@ -1,0 +1,57 @@
+.detailcss {
+  margin: auto;
+  text-align: left;
+  margin-top: 40px;
+  padding: 10px;
+  width: 50rem;
+}
+
+.actionsdiv {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  margin-left: 5rem;
+}
+
+.actionsdiv button {
+  margin-top: 5rem;
+  margin-right: 20px;
+  width: 130px;
+  padding: 10px 30px;
+  border-radius: 25px;
+}
+
+.apprbutton {
+  border: none;
+  background-color: #4bb543;
+}
+
+.rejbutton {
+  border: none;
+  background-color: #fc100d;
+}
+
+.cancelbutton {
+  border: 0.5px solid #294936;
+  background-color: transparent;
+}
+
+.idImage {
+  margin-top: 20px;
+  width: 300px;
+  height: 200px;
+  object-fit: cover;
+}
+
+.itemdetail {
+  font-size: large;
+  margin-bottom: 20px;
+}
+
+.partone {
+  float: left;
+}
+
+.parttwo {
+  float: right;
+}

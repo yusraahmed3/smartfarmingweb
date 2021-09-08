@@ -43,7 +43,7 @@ class Request extends Component {
     }).then(
       (response) => {
         toast.configure();
-        toast.success("Request sent", {
+        toast.success("Request sent!. We'll notify you after we review your application asap!", {
           position: "top-center",
           autoClose: 5000,
           pauseOnHover: true,
@@ -55,19 +55,6 @@ class Request extends Component {
         console.log(error);
       }
     );
-
-    //     fetch(url, {
-    //       method: "POST",
-
-    //       body: json(data), // data can be `string` or {object}!
-
-    //       headers: { "Content-Type": "application/json" },
-    //     })
-    //       .then((res) => res.json())
-
-    //       .catch((error) => console.error("Error:", error))
-
-    //       .then((response) => console.log("Success:", response));
   }
 
   handleFileChange(event) {

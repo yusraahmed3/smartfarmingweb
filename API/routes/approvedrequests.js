@@ -23,6 +23,7 @@ router.post('/', async(req, res)=>{
         password: req.body.password,
         message: req.body.message,
         idimg: req.body.idimg,
+        status: req.body.status
     })
     try{
         const a1 = await request.save()
@@ -45,6 +46,21 @@ router.get("/:id", async(req, res) =>{
         res.send("Error")
     }
 })
+
+router.patch("/status/:id", async (req, res) => {
+    console.log("Inside change status");
+    try {
+        console.log(req.body.status)
+      const approved = await Approved.findByIdAndUpdate(
+        req.params.id,
+        { $set: { status: req.body.status } },
+        { new: true}
+      );
+      res.json(approved);
+    } catch (err) {
+      console.log(err);
+    }
+  });
 
 router.patch("/:id", async(req, res) =>{
     try{

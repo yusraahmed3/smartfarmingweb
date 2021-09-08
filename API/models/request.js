@@ -3,9 +3,7 @@ const mongoose = require('mongoose')
 const requestSchema = new mongoose.Schema({
     status: {
         type: String,
-        required: true,
         default: 'pending'
-
     },
     firstname: {
         type: String,

@@ -6,8 +6,9 @@ import ThumbUpIcon from "@material-ui/icons/ThumbUp";
 import ThumbDownIcon from "@material-ui/icons/ThumbDown";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-import ActiveRequestPage from "./ActiveRequestPage";
-import { Redirect } from "react-router";
+import { withRouter } from "react-router";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Requests({
   request,
@@ -35,38 +36,9 @@ function Requests({
         </button>
       </td>
     </tr>
-    // <ul className="activelist">
-    //   <li className="listitems" key={index}>
-    //     <div className="title">
-    //       {request.firstname} {request.lastname}
-    //     </div>
-    //     <div className="title">{request.instname}</div>
-    //     <div className="icon1">
-    //       <button onClick={() => approveRequest(request)}>
-    //         <ThumbUpIcon />
-    //       </button>
-    //     </div>
-    //     <div className="icon2">
-    //       <button onClick={() => rejectRequest(request)}>
-    //         <ThumbDownIcon />
-    //       </button>
-    //     </div>
-    //   </li>
-    // </ul>
   );
 }
-// function ActiveRequestDetail({ request }) {
-//   return (
-//     <div>
-//       {request.firstname} {request.lastname}
-//       {request.instname}
-//       {request.phoneno}
-//       {request.email}
-//       {request.message}
-//       {request.idimg}
-//     </div>
-//   );
-// }
+
 
 class ActiveRequests extends Component {
   constructor(props) {
@@ -80,45 +52,45 @@ class ActiveRequests extends Component {
 
   handleApproveButton = (req) => {
     console.log("Inside approve method");
-    // axios.patch
-    // axios({
-    //   method: "patch",
-    //   url: `http://localhost:4000/requests/status/${req._id}`,
-    //   data: {
-    //     status: "approved"
-    //   }
-    // })
-    const url = "http://localhost:4000/approved";
-    axios({
-      method: "post",
-      url: url,
-      data: {
-        firstname: req.firstname,
-        lastname: req.lastname,
-        phoneno: req.phoneno,
-        instname: req.instname,
-        email: req.email,
-        password: req.password,
-        message: req.message,
-      },
-    })
-      .then(
-        axios.patch(
-          `http://localhost:4000/requests/status/${req._id}`,
-          "approved"
-        )
-      )
-      .then(
+    axios
+      .patch(`http://localhost:4000/requests/status/${req._id}`, {
+        status: "approved",
+      })
+      .then( res => axios({
+        method: "post",
+        url: "http://localhost:4000/approved",
+        data: {
+          firstname: res.data.firstname,
+          lastname: res.data.lastname,
+          phoneno: res.data.phoneno,
+          instname: res.data.instname,
+          email: res.data.email,
+          password: res.data.password,
+          message: res.data.message,
+          status:  res.data.status
+        },
+      })) .then(
         (response) => {
+          toast.configure();
+          toast.success("Request Approved!", {
+            position: "top-center",
+            autoClose: 5000,
+            pauseOnHover: true,
+            hideProgressBar: true,
+          });
           console.log("Request approved!");
           console.log(response);
         },
         (error) => {
+          toast.configure();
+        toast.error("Request approval failed!", {
+          position: "top-center",
+          autoClose: 5000,
+          pauseOnHover: true,
+          hideProgressBar: true,
+        });
           console.log(error);
         }
-      )
-      .then(
-        this.setState(axios.delete(`http://localhost:4000/requests/${req._id}`))
       )
       .then(
         axios({
@@ -129,51 +101,62 @@ class ActiveRequests extends Component {
             phoneno: req.phoneno,
             email: req.email,
             password: req.password,
-            idimg: req.idimg,
           },
         })
+      )
+      .then(
+        this.setState(axios.delete(`http://localhost:4000/requests/${req._id}`))
       );
   };
 
   handleRejectButton = (req) => {
     console.log("Inside reject method");
-    const url = "http://localhost:4000/rejected";
-    axios({
-      method: "post",
-      url: url,
-      data: {
+    axios
+      .patch(`http://localhost:4000/requests/status/${req._id}`, {
         status: "rejected",
-        firstname: req.firstname,
-        lastname: req.lastname,
-        phoneno: req.phoneno,
-        instname: req.instname,
-        email: req.email,
-        password: req.password,
-        message: req.message,
-      },
-    })
-      .then(
+      })
+      .then( res => axios({
+        method: "post",
+        url: "http://localhost:4000/rejected",
+        data: {
+          firstname: res.data.firstname,
+          lastname: res.data.lastname,
+          phoneno: res.data.phoneno,
+          instname: res.data.instname,
+          email: res.data.email,
+          password: res.data.password,
+          message: res.data.message,
+          status:  res.data.status
+        },
+      })) .then(
         (response) => {
+          toast.configure();
+        toast.success("Request Rejected!", {
+          position: "top-center",
+          autoClose: 5000,
+          pauseOnHover: true,
+          hideProgressBar: true,
+        });
           console.log("Request rejected!");
           console.log(response);
         },
         (error) => {
+          toast.configure();
+        toast.error("Request rejection failed!", {
+          position: "top-center",
+          autoClose: 5000,
+          pauseOnHover: true,
+          hideProgressBar: true,
+        });
           console.log(error);
         }
-      )
-      .then(axios.delete(`http://localhost:4000/requests/${req._id}`));
+      ).then(
+        this.setState(axios.delete(`http://localhost:4000/requests/${req._id}`))
+      );
   };
 
   handleMoreButton = (req) => {
-    <Redirect
-      to={{
-        pathname: "/requestpage",
-        state: { req: req },
-      }}
-    />;
-
-    //  { console.log("Inside more button")}
-    //   <ActiveRequestPage request={req} />;
+    this.props.history.push({pathname: '/requestpage', state: { request: req}})
   };
 
   async componentDidMount() {
@@ -207,6 +190,7 @@ class ActiveRequests extends Component {
             </div>
             <div className="scrollablecontent">
               <table>
+                <tbody>
                 <tr>
                   <th>Requester Name</th>
                   <th>Institution Name</th>
@@ -223,6 +207,7 @@ class ActiveRequests extends Component {
                     reqDetails={this.handleMoreButton}
                   />
                 ))}
+                </tbody>
               </table>
             </div>
           </div>
@@ -232,4 +217,4 @@ class ActiveRequests extends Component {
   }
 }
 
-export default ActiveRequests;
+export default withRouter(ActiveRequests);

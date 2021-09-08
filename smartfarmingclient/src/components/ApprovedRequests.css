@@ -9,6 +9,7 @@
     background-color: transparent;
     color: rgb(96, 147, 192);
     transform: scale(1.1);
+    margin-right: 10px;
 }
 
 #icons:hover{

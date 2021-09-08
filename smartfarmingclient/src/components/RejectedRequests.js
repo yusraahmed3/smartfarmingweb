@@ -5,6 +5,7 @@ import EditIcon from "@material-ui/icons/Edit";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import DeleteIcon from "@material-ui/icons/Delete";
 import axios from "axios";
+import MoreVertIcon from "@material-ui/icons/MoreVert";
 
 class RejectedRequests extends Component {
   constructor(props) {
@@ -64,7 +65,7 @@ class RejectedRequests extends Component {
                     <td>{req.status}</td>
                     <td>
                       <button id="icons">
-                        <EditIcon />
+                        <MoreVertIcon />
                       </button>
                       <button
                         id="icon2"

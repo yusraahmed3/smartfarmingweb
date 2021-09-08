@@ -161,6 +161,19 @@ router.patch("/photo/:id", upload.single("idimg"), async (req, res, err) => {
   }
 });
 
+router.delete('/:id', async(req,res)=>{
+  console.log("Inside user deletion method")
+  try{
+      const user = await User.findById(req.params.id)
+      const a3 = await user.delete()
+      res.json(a3)
+
+  }catch(err){
+      console.log(err)
+      res.json("error")
+  }
+})
+
 // router.post("/admin-register", upload.single('idimg'), async (req, res) => {
 //   const url = req.protocol + '://' + req.get('host')
 //   console.log("Inside admin register");

@@ -3,6 +3,7 @@
     background-color: transparent;
     margin-right: 10px;
     color: gray;
+    transform: scale(1.1);
 }
 
 #icon2:hover{

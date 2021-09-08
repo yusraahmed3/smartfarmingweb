@@ -1,120 +1,199 @@
-// // import React, { Component } from 'react';
-// // import Sidebar from './Sidebar';
-// // import CircularProgress from "@material-ui/core/CircularProgress";
-// // import axios from 'axios';
+import React from "react";
+import Sidebar from "./Sidebar";
+import "./ActiveRequestPage.css";
+import { useHistory } from "react-router";
+import axios from "axios";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-// // class ActiveRequestPage extends Component {
-// //     constructor(props){
-// //         super(props);
-// //         this.state = {
-// //             request: [],
-// //             loading: true,
-// //           };
-// //     }
 
-// //     async componentDidMount() {
-// //         const idreq = this.props.requestid
-// //         console.log(idreq)
-// //         console.log('It aint working')
-// //         const url = `http://localhost:4000/requests/${idreq}`;
-// //         console.log(url)
-// //         const response = await axios.get(url);
-// //         this.setState({
-// //           requests: response.data,
-// //           loading: false,
-// //         });
-// //         console.log(response);
-// //       }
+function ActiveRequestPage(props) {
+  const json = localStorage.getItem("admin");
+  const userID = JSON.parse(json);
+  const req = props.location.state.request;
+  let history = useHistory();
 
-// //     render() {
-// //         if (this.state.loading || !this.state.requests) {
-// //             return (
-// //               <>
-// //                 <Sidebar />
-// //                 <CircularProgress className="progresscircular" />
-// //               </>
-// //             );
-// //           } else {
-// //                 return (
-// //                     <>
-// //                     <Sidebar />
-// //                     <div>
-// //                         {this.state.requests.map((req) => (
-// //                         <div className="position">
-// //                         <div className="pagetitle">
-// //                         <h3>{req.instname}</h3>
-// //                         </div>
-// //                             <div>
-// //                                 {req.firstname}
-// //                             </div>
-// //                             <div>
-// //                                 {req.lastname}
-// //                             </div>
-// //                             <div>
-// //                                 {req.phoneno}
-// //                             </div>
-// //                             <div>
-// //                                 {req.instname}
-// //                             </div>
-// //                             <div>
-// //                                 {req.email}
-// //                             </div>
-// //                             <div>
-// //                                 {req.password}
-// //                             </div>
-// //                             <div>
-// //                                 {req.message}
-// //                             </div>
-// //                             <div>
-// //                                 {req.idimg}
-// //                             </div>
-// //                         </div>
+  const handleApproveButton = (req) => {
+    console.log("Inside detail approve method");
+    axios
+      .patch(`http://localhost:4000/requests/status/${req._id}`, {
+        status: "approved",
+      })
+      .then((res) =>
+        axios({
+          method: "post",
+          url: "http://localhost:4000/approved",
+          data: {
+            firstname: res.data.firstname,
+            lastname: res.data.lastname,
+            phoneno: res.data.phoneno,
+            instname: res.data.instname,
+            email: res.data.email,
+            password: res.data.password,
+            message: res.data.message,
+            status: res.data.status,
+            idimg: res.data.idimg
+          },
+        })
+      )
+      .then(
+        (response) => {
+          toast.configure();
+        toast.success("Request Approved!", {
+          position: "top-center",
+          autoClose: 5000,
+          pauseOnHover: true,
+          hideProgressBar: true,
+        });
+          console.log("Request approved!");
+          console.log(response);
+        },
+        (error) => {
+          toast.configure();
+        toast.error("Request approval failed!", {
+          position: "top-center",
+          autoClose: 5000,
+          pauseOnHover: true,
+          hideProgressBar: true,
+        });
+          console.log(error);
+        }
+      )
+      .then(
+        axios({
+          method: "post",
+          url: "http://localhost:4000/users/register",
+          data: {
+            name: req.firstname + " " + req.lastname,
+            phoneno: req.phoneno,
+            email: req.email,
+            password: req.password,
+          },
+        })
+      )
+      .then(axios.delete(`http://localhost:4000/requests/${req._id}`));
+  };
 
-// //                         ))}
-                        
-// //                     </div>
-// //                     </>
-// //         );
-// //     }
-// // }
-// // }
+  const handleRejectButton = (req) => {
+    console.log("Inside detail reject method");
+    axios
+      .patch(`http://localhost:4000/requests/status/${req._id}`, {
+        status: "rejected",
+      })
+      .then((res) =>
+        axios({
+          method: "post",
+          url: "http://localhost:4000/rejected",
+          data: {
+            firstname: res.data.firstname,
+            lastname: res.data.lastname,
+            phoneno: res.data.phoneno,
+            instname: res.data.instname,
+            email: res.data.email,
+            password: res.data.password,
+            message: res.data.message,
+            status: res.data.status,
+          },
+        })
+      )
+      .then(
+        (response) => {
+          toast.configure();
+        toast.success("Request Rejected!", {
+          position: "top-center",
+          autoClose: 5000,
+          pauseOnHover: true,
+          hideProgressBar: true,
+        });
+          console.log("Request rejected!");
+          console.log(response);
+        },
+        (error) => {
+          toast.configure();
+        toast.error("Request rejected failed!", {
+          position: "top-center",
+          autoClose: 5000,
+          pauseOnHover: true,
+          hideProgressBar: true,
+        });
+          console.log(error);
+        }
+      )
+      .then(axios.delete(`http://localhost:4000/requests/${req._id}`));
+  };
 
-// // export default ActiveRequestPage;
+  const handleCancelButton = (req) => {
+    console.log("Inside cancel button");
+    history.push("/active");
+  };
 
-// import React, { Component } from 'react';
-
-// function ActiveRequestPage ({request}) {
-//         return (
-//             <<div>
-//     {request.firstname} {request.lastname}
-//     {request.instname}
-//     {request.phoneno}
-//     {request.email}
-//     {request.message}
-//     {request.idimg}
-
-//   </div>
-//         );
-// }
-
-// export default ActiveRequestPage;
-
-import React from 'react'
-import Sidebar from './Sidebar';
-
-function ActiveRequestPage({ request }) {
-    return (
-      <div>
-          <Sidebar />
-        {request.firstname} {request.lastname}
-        {request.instname}
-        {request.phoneno}
-        {request.email}
-        {request.message}
-        {request.idimg}
-        
+  return (
+    <>
+      <Sidebar image={userID.idimg} />
+      <div className="position">
+        <div className="pagetitle">
+          <h3>Request Detail</h3>
+        </div>
+        <div className="detailcss">
+          <div className="partone">
+            <div className="itemdetail">
+              <strong>First Name:</strong>
+              {" " + props.location.state.request.firstname}
+            </div>
+            <div className="itemdetail">
+              <strong>Last Name:</strong>
+              {" " + props.location.state.request.lastname}
+            </div>
+            <div className="itemdetail">
+              <strong>Institution Name:</strong>
+              {" " + props.location.state.request.instname}
+            </div>
+            <div className="itemdetail">
+              <strong>Phone Number:</strong>
+              {" " + props.location.state.request.phoneno}
+            </div>
+            <div className="itemdetail">
+              <strong>Email:</strong>
+              {" " + props.location.state.request.email}
+            </div>
+            <div className="itemdetail">
+              <strong>Message:</strong>
+              {" " + props.location.state.request.message}
+            </div>
+          </div>
+          <div className="parttwo">
+            <div className="itemdetail">
+              <strong>ID image:</strong>
+              <div>
+                <img
+                  className="idImage"
+                  src={props.location.state.request.idimg}
+                  alt="some"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="actionsdiv">
+          <button
+            className="apprbutton"
+            onClick={() => handleApproveButton(req)}
+          >
+            Approve
+          </button>
+          <button className="rejbutton" onClick={() => handleRejectButton(req)}>
+            Reject
+          </button>
+          <button
+            className="cancelbutton"
+            onClick={() => handleCancelButton(req)}
+          >
+            Cancel
+          </button>
+        </div>
       </div>
-    );
-  }
+    </>
+  );
+}
 
-export default ActiveRequestPage
+export default ActiveRequestPage;
