@@ -16,6 +16,7 @@ import ActiveRequestPage from "./components/ActiveRequestPage";
 import { ToastContainer } from "react-toastify";
 import UserManageAccount from "./components/UserManageAccount";
 import ApprovedDetail from "./components/ApprovedDetail";
+import RejectedDetail from "./components/RejectedDetail";
 
 function App() {
   return (
@@ -58,6 +59,7 @@ function App() {
             render={(props) => <ActiveRequestPage {...props} />}
           />
           <Route path="/approvedpage" render={(props) => <ApprovedDetail {...props}/>}/>
+          <Route path="/rejectedpage" render={(props) => <RejectedDetail {...props}/>}/>
           <Route path="/userDash">
             <User />
           </Route>

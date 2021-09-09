@@ -35,10 +35,11 @@ class ApprovedRequests extends Component {
     this.props.history.push({pathname: '/approvedpage', state: { approved: req}})
   }
 
-  handleRevokeRequest = (request) => {
+  handleRevokeRequest = (req) => {
     console.log("Inside revoke method");
+    console.log(req._id)
     axios
-      .patch(`http://localhost:4000/approved/status/${request._id}`, {
+      .patch(`http://localhost:4000/approved/status/${req._id}`, {
         status: "rejected",
       })
       .then((res) =>
@@ -81,8 +82,8 @@ class ApprovedRequests extends Component {
           console.log(error);
         }
       )
-      .then(axios.delete(`http://localhost:4000/users/${request._id}`))
-      .then(axios.delete(`http://localhost:4000/approved/${request._id}`));
+      .then(axios.delete(`http://localhost:4000/users/${req._id}`))
+      .then(axios.delete(`http://localhost:4000/approved/${req._id}`));
   };
 
   render() {
@@ -125,7 +126,7 @@ class ApprovedRequests extends Component {
                       </button>
                       <button
                         id="icons2"
-                        onClick={() => this.handleRevokeRequest(req._id)}
+                        onClick={() => this.handleRevokeRequest(req)}
                       >
                         <NotInterestedIcon />
                       </button>

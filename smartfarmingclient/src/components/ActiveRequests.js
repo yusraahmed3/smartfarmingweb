@@ -39,7 +39,6 @@ function Requests({
   );
 }
 
-
 class ActiveRequests extends Component {
   constructor(props) {
     super(props);
@@ -56,20 +55,23 @@ class ActiveRequests extends Component {
       .patch(`http://localhost:4000/requests/status/${req._id}`, {
         status: "approved",
       })
-      .then( res => axios({
-        method: "post",
-        url: "http://localhost:4000/approved",
-        data: {
-          firstname: res.data.firstname,
-          lastname: res.data.lastname,
-          phoneno: res.data.phoneno,
-          instname: res.data.instname,
-          email: res.data.email,
-          password: res.data.password,
-          message: res.data.message,
-          status:  res.data.status
-        },
-      })) .then(
+      .then((res) =>
+        axios({
+          method: "post",
+          url: "http://localhost:4000/approved",
+          data: {
+            firstname: res.data.firstname,
+            lastname: res.data.lastname,
+            phoneno: res.data.phoneno,
+            instname: res.data.instname,
+            email: res.data.email,
+            password: res.data.password,
+            message: res.data.message,
+            status: res.data.status,
+          },
+        })
+      )
+      .then(
         (response) => {
           toast.configure();
           toast.success("Request Approved!", {
@@ -83,12 +85,12 @@ class ActiveRequests extends Component {
         },
         (error) => {
           toast.configure();
-        toast.error("Request approval failed!", {
-          position: "top-center",
-          autoClose: 5000,
-          pauseOnHover: true,
-          hideProgressBar: true,
-        });
+          toast.error("Request approval failed!", {
+            position: "top-center",
+            autoClose: 5000,
+            pauseOnHover: true,
+            hideProgressBar: true,
+          });
           console.log(error);
         }
       )
@@ -104,6 +106,14 @@ class ActiveRequests extends Component {
           },
         })
       )
+      .then(axios({
+        method: "post",
+        url: "http://localhost:4000/users/send-approval-mail",
+        data:{
+          name: req.firstname,
+          email: req.email
+        }
+      }))
       .then(
         this.setState(axios.delete(`http://localhost:4000/requests/${req._id}`))
       );
@@ -115,48 +125,62 @@ class ActiveRequests extends Component {
       .patch(`http://localhost:4000/requests/status/${req._id}`, {
         status: "rejected",
       })
-      .then( res => axios({
-        method: "post",
-        url: "http://localhost:4000/rejected",
-        data: {
-          firstname: res.data.firstname,
-          lastname: res.data.lastname,
-          phoneno: res.data.phoneno,
-          instname: res.data.instname,
-          email: res.data.email,
-          password: res.data.password,
-          message: res.data.message,
-          status:  res.data.status
-        },
-      })) .then(
+      .then((res) =>
+        axios({
+          method: "post",
+          url: "http://localhost:4000/rejected",
+          data: {
+            firstname: res.data.firstname,
+            lastname: res.data.lastname,
+            phoneno: res.data.phoneno,
+            instname: res.data.instname,
+            email: res.data.email,
+            password: res.data.password,
+            message: res.data.message,
+            status: res.data.status,
+          },
+        })
+      )
+      .then(
         (response) => {
           toast.configure();
-        toast.success("Request Rejected!", {
-          position: "top-center",
-          autoClose: 5000,
-          pauseOnHover: true,
-          hideProgressBar: true,
-        });
+          toast.success("Request Rejected!", {
+            position: "top-center",
+            autoClose: 5000,
+            pauseOnHover: true,
+            hideProgressBar: true,
+          });
           console.log("Request rejected!");
           console.log(response);
         },
         (error) => {
           toast.configure();
-        toast.error("Request rejection failed!", {
-          position: "top-center",
-          autoClose: 5000,
-          pauseOnHover: true,
-          hideProgressBar: true,
-        });
+          toast.error("Request rejection failed!", {
+            position: "top-center",
+            autoClose: 5000,
+            pauseOnHover: true,
+            hideProgressBar: true,
+          });
           console.log(error);
         }
-      ).then(
+      ).then(axios({
+        method: "post",
+        url: "http://localhost:4000/users/send-rejection-mail",
+        data:{
+          name: req.firstname,
+          email: req.email
+        }
+      }))
+      .then(
         this.setState(axios.delete(`http://localhost:4000/requests/${req._id}`))
       );
   };
 
   handleMoreButton = (req) => {
-    this.props.history.push({pathname: '/requestpage', state: { request: req}})
+    this.props.history.push({
+      pathname: "/requestpage",
+      state: { request: req },
+    });
   };
 
   async componentDidMount() {
@@ -191,22 +215,22 @@ class ActiveRequests extends Component {
             <div className="scrollablecontent">
               <table>
                 <tbody>
-                <tr>
-                  <th>Requester Name</th>
-                  <th>Institution Name</th>
-                  <th>Status </th>
-                  <th>Actions</th>
-                </tr>
-                {this.state.requests.map((req, index) => (
-                  <Requests
-                    key={index}
-                    index={index}
-                    request={req}
-                    approveRequest={this.handleApproveButton}
-                    rejectRequest={this.handleRejectButton}
-                    reqDetails={this.handleMoreButton}
-                  />
-                ))}
+                  <tr>
+                    <th>Requester Name</th>
+                    <th>Institution Name</th>
+                    <th>Status </th>
+                    <th>Actions</th>
+                  </tr>
+                  {this.state.requests.map((req, index) => (
+                    <Requests
+                      key={index}
+                      index={index}
+                      request={req}
+                      approveRequest={this.handleApproveButton}
+                      rejectRequest={this.handleRejectButton}
+                      reqDetails={this.handleMoreButton}
+                    />
+                  ))}
                 </tbody>
               </table>
             </div>

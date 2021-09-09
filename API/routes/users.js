@@ -4,7 +4,17 @@ const { userRegister, userLogin, userAuth } = require("../utils/Auth");
 const multer = require("multer");
 const uuid = require("uuid").v4;
 const router = express.Router();
+const { Approved } = require("../templates/approval");
+const { Rejected } = require("../templates/rejection");
+const nodemailer = require("nodemailer");
 const auth = require("../middlewares/passport");
+const {
+  USERNAME,
+  PASSWORD,
+  CLIENTID,
+  CLIENTSECRET,
+  REFRESH,
+} = require("../config");
 
 const DIR = "./public/";
 
@@ -34,12 +44,11 @@ var upload = multer({
   },
 });
 
-
-router.get('/protected', auth, (req, res)=>{
+router.get("/protected", auth, (req, res) => {
   res.status(200).json({
-    msg: "Authorized"
-  })
-})
+    msg: "Authorized",
+  });
+});
 
 router.get("/", async (req, res) => {
   try {
@@ -63,20 +72,6 @@ router.get("/user/:id", async (req, res) => {
 router.post("/login", async (req, res) => {
   console.log("Inside login");
   await userLogin(req.body, "user", res);
-  //  const user = await User.findOne({ email: req.body.email }, (err, result) => {
-  //     if (err) res.status(500).json({ msg: err });
-  //     if (result == null) {
-  //         res.status(403).json("username or password incorrect");
-  //     }
-  //     else if (result.password == req.body.password) {
-  //         res.status(200).send({
-  //             message: "Login successful"
-  //         })
-  //     }
-  //     else {
-  //         res.status(403).send("password is incorrect");
-  //     }
-  // });
 });
 
 // router.post("/admin-login", async (req, res) => {
@@ -86,20 +81,6 @@ router.post("/login", async (req, res) => {
 router.post("/register", async (req, res) => {
   console.log("Inside the register");
   await userRegister(req, "user", res);
-  // const user = new User({
-  //     email: req.body.email,
-  //     password: req.body.password,
-
-  // });
-  //  user
-  //     .save()
-  //     .then(() => {
-  //         console.log("user registered");
-  //         res.status(200).json(user);
-  //     })
-  //     .catch((err) => {
-  //         res.status(403).json({ msg: err });
-  //     });
 });
 
 router.patch("/updatename/:id", async (req, res) => {
@@ -145,7 +126,7 @@ router.patch("/updateemail/:id", async (req, res) => {
 });
 
 router.patch("/photo/:id", upload.single("idimg"), async (req, res, err) => {
-  console.log("Inside photo update")
+  console.log("Inside photo update");
   try {
     const id = req.params.id;
     const url = req.protocol + "://" + req.get("host");
@@ -161,18 +142,84 @@ router.patch("/photo/:id", upload.single("idimg"), async (req, res, err) => {
   }
 });
 
-router.delete('/:id', async(req,res)=>{
-  console.log("Inside user deletion method")
-  try{
-      const user = await User.findById(req.params.id)
-      const a3 = await user.delete()
-      res.json(a3)
-
-  }catch(err){
-      console.log(err)
-      res.json("error")
+const getEmailData = (to, name, template) => {
+  let data = null;
+  switch (template) {
+    case "Approved":
+      data = {
+        from: "yusraa190@gmail.com",
+        to,
+        subject: `Request Approved!`,
+        html: Approved(name),
+      };
+      break;
+    case "Rejected":
+      data = {
+        from: "yusraa190@gmail.com",
+        to,
+        subject: `Dear ${name}`,
+        html: Rejected(),
+      };
+      break;
+    default:
+      data;
   }
-})
+  return data;
+};
+
+const sendEmail = (to, uname, type) => {
+  let transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      type: "OAuth2",
+      user: USERNAME,
+      pass: PASSWORD,
+      clientId: CLIENTID,
+      clientSecret: CLIENTSECRET,
+      refreshToken: REFRESH,
+    },
+  });
+  const mail = getEmailData(to, uname, type);
+
+  transporter.sendMail(mail, function (err, data) {
+    if (err) {
+      console.log("Error " + err);
+    } else {
+      console.log("Email sent successfully");
+    }
+  });
+};
+
+// let mailOptions = {
+//   from: 'yusraa190@gmail.com',
+//   to: 'yusra-ahmed13@hotmail.com',
+//   subject: 'Nodemailer Project',
+//   text: 'Hi from nodemailer project'
+// }
+
+router.post("/send-approval-mail", async (req, res) => {
+  console.log(req.body);
+  await sendEmail(req.body.email, req.body.name, "Approved")
+  res.send("Success");
+});
+
+router.post('/send-rejection-mail', async (req, res) => {
+  console.log(req.body);
+  await sendEmail(req.body.email, req.body.name, "Rejected")
+  res.send("Success");
+});
+
+router.delete("/:id", async (req, res) => {
+  console.log("Inside user deletion method");
+  try {
+    const user = await User.findById(req.params.id);
+    const a3 = await user.delete();
+    res.json(a3);
+  } catch (err) {
+    console.log(err);
+    res.json("error");
+  }
+});
 
 // router.post("/admin-register", upload.single('idimg'), async (req, res) => {
 //   const url = req.protocol + '://' + req.get('host')

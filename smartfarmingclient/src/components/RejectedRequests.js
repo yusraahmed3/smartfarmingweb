@@ -1,11 +1,13 @@
 import React, { Component } from "react";
 import Sidebar from "./Sidebar";
 import "./RejectedRequests.css";
-import EditIcon from "@material-ui/icons/Edit";
+import { withRouter } from "react-router";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import DeleteIcon from "@material-ui/icons/Delete";
 import axios from "axios";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 class RejectedRequests extends Component {
   constructor(props) {
@@ -26,8 +28,25 @@ class RejectedRequests extends Component {
     console.log(response);
   }
 
+  handleMoreDetailButton = (req) => {
+    this.props.history.push({
+      pathname: "/rejectedpage",
+      state: { rejected: req },
+    });
+  };
+
   deleteRequest(id) {
-    axios.delete(`http://localhost:4000/rejected/${id}`);
+    axios.delete(`http://localhost:4000/rejected/${id}`).then((res) => {
+      toast.configure();
+      toast.success("Request Deleted!", {
+        position: "top-center",
+        autoClose: 5000,
+        pauseOnHover: true,
+        hideProgressBar: true,
+      });
+      console.log("Request Deleted!");
+      console.log(res);
+    });
   }
 
   render() {
@@ -64,7 +83,10 @@ class RejectedRequests extends Component {
                     <td>{req.instname}</td>
                     <td>{req.status}</td>
                     <td>
-                      <button id="icons">
+                      <button
+                        id="icons"
+                        onClick={() => this.handleMoreDetailButton(req)}
+                      >
                         <MoreVertIcon />
                       </button>
                       <button
@@ -101,4 +123,4 @@ class RejectedRequests extends Component {
   }
 }
 
-export default RejectedRequests;
+export default withRouter(RejectedRequests);

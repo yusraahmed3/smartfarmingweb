@@ -70,7 +70,14 @@ function ActiveRequestPage(props) {
             password: req.password,
           },
         })
-      )
+      ).then(axios({
+        method: "post",
+        url: "http://localhost:4000/users/send-approval-mail",
+        data:{
+          name: req.firstname,
+          email: req.email
+        }
+      }))
       .then(axios.delete(`http://localhost:4000/requests/${req._id}`));
   };
 
@@ -118,7 +125,14 @@ function ActiveRequestPage(props) {
         });
           console.log(error);
         }
-      )
+      ).then(axios({
+        method: "post",
+        url: "http://localhost:4000/users/send-rejection-mail",
+        data:{
+          name: req.firstname,
+          email: req.email
+        }
+      }))
       .then(axios.delete(`http://localhost:4000/requests/${req._id}`));
   };
 
