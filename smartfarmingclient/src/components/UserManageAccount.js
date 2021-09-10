@@ -1,10 +1,7 @@
-import React, { useLayoutEffect, createRef, useRef, useState } from "react";
+import React, { useLayoutEffect, createRef, useState } from "react";
 import UserSidebar from "./UserSidebar";
 import "./ManageAccount.css";
-import { useHistory } from "react-router-dom";
 import axios from "axios";
-import EditIcon from "@material-ui/icons/Edit";
-import { Input, InputAdornment } from "@material-ui/core";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 

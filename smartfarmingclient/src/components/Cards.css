@@ -5,6 +5,15 @@
     margin-top: 50px;
 }
 
+.morecss{
+    position: relative;
+    left: 25rem;
+}
+
+.morecss:hover{
+    cursor: pointer;
+}
+
 .card__location{
     color: #fff;
     font-family: "OpenSans";

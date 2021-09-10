@@ -1,11 +1,14 @@
 import React from 'react'
 import './Cards.css'
 import { WiThermometer, WiHumidity,WiRaindrops } from 'weather-icons-react';
+import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
+import { withRouter } from "react-router";
 
 function Cards(props) {
     return (
         <div className="wrapperr">
-            <div className="card__location">{props.location}</div>
+            <div className="card__location">{props.location} <span className="morecss"><MoreHorizIcon/></span></div>
+            
             <div className="cards">
                 <div className="card">
                     <div className="card__icon"> <WiThermometer size={35} color='#d00000' /></div>

@@ -2,15 +2,12 @@ import React, { Component } from "react";
 import Sidebar from "./Sidebar";
 import "./ApprovedRequests.css";
 import { withRouter } from "react-router";
-// import EditIcon from "@material-ui/icons/Edit";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import axios from "axios";
 import NotInterestedIcon from "@material-ui/icons/NotInterested";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-// const json = localStorage.getItem("admin");
-// const userID = JSON.parse(json);
 
 class ApprovedRequests extends Component {
   constructor(props) {
@@ -18,6 +15,7 @@ class ApprovedRequests extends Component {
     this.state = {
       approvedRequests: [],
       loading: true,
+      image: "",
     };
   }
 
@@ -29,15 +27,32 @@ class ApprovedRequests extends Component {
       loading: false,
     });
     console.log(response);
+    axios({
+      url: "http://localhost:4000/users/user",
+      method: "get",
+      headers: {
+        "x-access-token": localStorage.getItem("token"),
+      },
+    })
+      .then((res) => {
+        console.log(res.data.user.idimg);
+        this.setState({
+          image: res.data.user.idimg,
+        });
+      })
+      .catch((err) => console.log(err));
   }
 
   handleMoreDetailButton = (req) => {
-    this.props.history.push({pathname: '/approvedpage', state: { approved: req}})
-  }
+    this.props.history.push({
+      pathname: "/approvedpage",
+      state: { approved: req },
+    });
+  };
 
   handleRevokeRequest = (req) => {
     console.log("Inside revoke method");
-    console.log(req._id)
+    console.log(req._id);
     axios
       .patch(`http://localhost:4000/approved/status/${req._id}`, {
         status: "rejected",
@@ -90,16 +105,14 @@ class ApprovedRequests extends Component {
     if (this.state.loading || !this.state.approvedRequests) {
       return (
         <>
-          <Sidebar />
+          <Sidebar image={this.state.image} />
           <CircularProgress className="progresscircular" />
         </>
       );
     } else {
-      const json = localStorage.getItem("admin");
-      const userID = JSON.parse(json);
       return (
         <>
-          <Sidebar image={userID.idimg} />
+          <Sidebar image={this.state.image} />
           <div className="position">
             <div className="pagetitle">
               <h3>Approved Requests</h3>
@@ -107,32 +120,35 @@ class ApprovedRequests extends Component {
             <div className="scrollablecontent">
               <table>
                 <tbody>
-                <tr>
-                  <th>Requester Name</th>
-                  <th>Instituition Name</th>
-                  <th>Status</th>
-                  <th>Actions</th>
-                </tr>
-                {this.state.approvedRequests.map((req) => (
-                  <tr className="hoverablerow" key={req._id}>
-                    <td>
-                      {req.firstname} {req.lastname}
-                    </td>
-                    <td>{req.instname}</td>
-                    <td>{req.status}</td>
-                    <td>
-                      <button id="icons" onClick={() => this.handleMoreDetailButton(req)}>
-                        <MoreVertIcon />
-                      </button>
-                      <button
-                        id="icons2"
-                        onClick={() => this.handleRevokeRequest(req)}
-                      >
-                        <NotInterestedIcon />
-                      </button>
-                    </td>
+                  <tr>
+                    <th>Requester Name</th>
+                    <th>Instituition Name</th>
+                    <th>Status</th>
+                    <th>Actions</th>
                   </tr>
-                ))}
+                  {this.state.approvedRequests.map((req) => (
+                    <tr className="hoverablerow" key={req._id}>
+                      <td>
+                        {req.firstname} {req.lastname}
+                      </td>
+                      <td>{req.instname}</td>
+                      <td>{req.status}</td>
+                      <td>
+                        <button
+                          id="icons"
+                          onClick={() => this.handleMoreDetailButton(req)}
+                        >
+                          <MoreVertIcon />
+                        </button>
+                        <button
+                          id="icons2"
+                          onClick={() => this.handleRevokeRequest(req)}
+                        >
+                          <NotInterestedIcon />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useLayoutEffect, useState } from "react";
 import Sidebar from "./Sidebar";
 import "./ActiveRequestPage.css";
 import { useHistory } from "react-router";
@@ -8,10 +8,25 @@ import "react-toastify/dist/ReactToastify.css";
 
 
 function ActiveRequestPage(props) {
-  const json = localStorage.getItem("admin");
-  const userID = JSON.parse(json);
+  const [image, setImage] = useState("");
   const req = props.location.state.request;
   let history = useHistory();
+
+  useLayoutEffect(() => {
+    axios({
+      url: "http://localhost:4000/users/user",
+      method: "get",
+      headers: {
+        "x-access-token": localStorage.getItem("token"),
+      },
+    })
+      .then((res) => {
+        console.log(res.data.user.idimg);
+        setImage(res.data.user.idimg)
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
 
   const handleApproveButton = (req) => {
     console.log("Inside detail approve method");
@@ -143,7 +158,7 @@ function ActiveRequestPage(props) {
 
   return (
     <>
-      <Sidebar image={userID.idimg} />
+      <Sidebar image={image} />
       <div className="position">
         <div className="pagetitle">
           <h3>Request Detail</h3>

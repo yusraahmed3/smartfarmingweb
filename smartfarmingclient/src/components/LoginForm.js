@@ -1,5 +1,5 @@
-import React, { useLayoutEffect, useState } from "react";
-import { Link, useHistory, Redirect } from "react-router-dom";
+import React, {  useState } from "react";
+import { Link, useHistory } from "react-router-dom";
 import "./LoginForm.css";
 import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
@@ -68,7 +68,9 @@ function LoginForm() {
             className="fieldcss"
             onChange={(e) => setPassword(e.target.value)}
           />
-          <br />
+          <div className="forgotstyle">
+            Forgot password?
+            </div>
           <br />
           <button type="submit" className="button-primary" onClick={login}>
             Login

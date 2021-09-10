@@ -15,6 +15,7 @@ class RejectedRequests extends Component {
     this.state = {
       rejectedRequests: [],
       loading: true,
+      image: "",
     };
   }
 
@@ -26,6 +27,20 @@ class RejectedRequests extends Component {
       loading: false,
     });
     console.log(response);
+    axios({
+      url: "http://localhost:4000/users/user",
+      method: "get",
+      headers: {
+        "x-access-token": localStorage.getItem("token"),
+      },
+    })
+      .then((res) => {
+        console.log(res.data.user.idimg);
+        this.setState({
+          image: res.data.user.idimg,
+        });
+      })
+      .catch((err) => console.log(err));
   }
 
   handleMoreDetailButton = (req) => {
@@ -53,16 +68,14 @@ class RejectedRequests extends Component {
     if (this.state.loading || !this.state.rejectedRequests) {
       return (
         <>
-          <Sidebar />
+          <Sidebar image={this.state.image} />
           <CircularProgress className="progresscircular" />
         </>
       );
     } else {
-      const json = localStorage.getItem("admin");
-      const userID = JSON.parse(json);
       return (
         <>
-          <Sidebar image={userID.idimg} />
+          <Sidebar image={this.state.image} />
           <div className="position">
             <div className="pagetitle">
               <h3>Rejected Requests</h3>

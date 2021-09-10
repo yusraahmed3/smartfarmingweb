@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useLayoutEffect, useState, Component } from "react";
 import Sidebar from "./Sidebar";
 import axios from "axios";
 import "./ActiveRequests.css";
@@ -44,7 +44,7 @@ class ActiveRequests extends Component {
     super(props);
     this.state = {
       requests: [],
-      request: [],
+      image: "",
       loading: true,
     };
   }
@@ -191,22 +191,33 @@ class ActiveRequests extends Component {
       loading: false,
     });
     console.log(response);
+    axios({
+      url: "http://localhost:4000/users/user",
+      method: "get",
+      headers: {
+        "x-access-token": localStorage.getItem("token"),
+      },
+    })
+      .then((res) => {
+        console.log(res.data.user.idimg);
+        this.setState({
+          image: res.data.user.idimg})
+      })
+      .catch((err) => console.log(err));
   }
 
   render() {
     if (this.state.loading || !this.state.requests) {
       return (
         <>
-          <Sidebar />
+          <Sidebar image={this.state.image}/>
           <CircularProgress className="progresscircular" />
         </>
       );
     } else {
-      const json = localStorage.getItem("admin");
-      const userID = JSON.parse(json);
       return (
         <>
-          <Sidebar image={userID.idimg} />
+          <Sidebar image={this.state.image} />
 
           <div className="position">
             <div className="pagetitle">
