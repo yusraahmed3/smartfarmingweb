@@ -7,10 +7,25 @@ function Contact() {
         <div>
             <Navbar/>
             <div className="contactus">
-               Contact Us
-            </div>
-            <div>
+                <div className="highlightcontact">
+                Contact Us
                 </div>
+                <div className="address">
+                    5 Kilo, Arada <br/>
+                    Addis Ababa, Ethiopia
+                </div>
+        <br/>
+        <br/>
+                <div className="address">
+                    Phone: +25196857489
+                </div>
+                <br/>
+                <div className="address">
+                    Email:  smartfarmingco@gmail.com
+                </div>
+
+            </div>
+            
         </div>
     )
 }

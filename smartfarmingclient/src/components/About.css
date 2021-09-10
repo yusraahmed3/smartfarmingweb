@@ -1,9 +1,34 @@
+.aboutwrapper{
+    width: 1200px;
+    margin: 50px;
+}
+
+.highlight{
+    color: green;
+}
+
 .line{
+    width: 400px;
+    margin: auto;
+}
+
+.lineimage{
+    margin-top: 100px;
+    width: 100%;
+}
+
+.sfwrapper{
+    float: left;
     width: 50%;
-    margin: 90px 400px;
+}
+
+.sfimage{
+width: 550px;
 }
 
 .para{
-    margin: 90px 200px;
-    line-height: 22px;
+    line-height: 30px;
+    float: right;
+    width: 50%;
+
 }

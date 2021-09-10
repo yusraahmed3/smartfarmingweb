@@ -1,5 +1,17 @@
 .contactus{
     margin: 80px 100px;
-    font-size: 25px;
-    color: #294936;
 }
+
+.highlightcontact{
+    font-size: 25px;
+    color: green;
+}
+
+.address{
+    font-size: 18px;
+}
+
+.phoneaddress{
+    font-size: 18px;
+}
+
