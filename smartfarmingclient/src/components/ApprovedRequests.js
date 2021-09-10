@@ -18,6 +18,7 @@ class ApprovedRequests extends Component {
     this.state = {
       approvedRequests: [],
       loading: true,
+      image: ""
     };
   }
 
@@ -29,6 +30,19 @@ class ApprovedRequests extends Component {
       loading: false,
     });
     console.log(response);
+    axios({
+      url: "http://localhost:4000/users/user",
+      method: "get",
+      headers: {
+        "x-access-token": localStorage.getItem("token"),
+      },
+    })
+      .then((res) => {
+        console.log(res.data.user.idimg);
+        this.setState({
+          image: res.data.user.idimg})
+      })
+      .catch((err) => console.log(err));
   }
 
   handleMoreDetailButton = (req) => {
@@ -90,7 +104,7 @@ class ApprovedRequests extends Component {
     if (this.state.loading || !this.state.approvedRequests) {
       return (
         <>
-          <Sidebar />
+          <Sidebar image={this.state.image} />
           <CircularProgress className="progresscircular" />
         </>
       );
@@ -99,7 +113,7 @@ class ApprovedRequests extends Component {
       const userID = JSON.parse(json);
       return (
         <>
-          <Sidebar image={userID.idimg} />
+          <Sidebar image={this.state.image} />
           <div className="position">
             <div className="pagetitle">
               <h3>Approved Requests</h3>

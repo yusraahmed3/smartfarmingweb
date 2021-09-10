@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useLayoutEffect, useState } from "react";
 import Sidebar from "./Sidebar";
 import "./ActiveRequestPage.css";
 import { useHistory } from "react-router";
@@ -8,10 +8,25 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function RejectedDetail(props) {
-  const json = localStorage.getItem("admin");
-  const userID = JSON.parse(json);
+  const [image, setImage] = useState("")
   const req = props.location.state.rejected;
   let history = useHistory();
+
+  
+  useLayoutEffect(() => {
+    axios({
+      url: "http://localhost:4000/users/user",
+      method: "get",
+      headers: {
+        "x-access-token": localStorage.getItem("token"),
+      },
+    })
+      .then((res) => {
+        console.log(res.data.user.idimg);
+        setImage(res.data.user.idimg)
+      })
+      .catch((err) => console.log(err));
+  }, []);
 
   const handleDeleteRequest = (req) => {
     console.log("Inside deletion method");
@@ -31,9 +46,10 @@ function RejectedDetail(props) {
   const handleCancelButton = () => {
     history.push("/rejected");
   };
+
   return (
     <>
-      <Sidebar image={userID.idimg} />
+      <Sidebar image={image} />
       <div className="position">
         <div className="pagetitle">
           <h3>Rejected Request Detail</h3>
