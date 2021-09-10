@@ -3,6 +3,7 @@ const User = require("../models/user.js");
 const { userRegister, userLogin, userAuth } = require("../utils/Auth");
 const multer = require("multer");
 const uuid = require("uuid").v4;
+const jwt = require('jsonwebtoken')
 const router = express.Router();
 const { Approved } = require("../templates/approval");
 const { Rejected } = require("../templates/rejection");
@@ -14,6 +15,7 @@ const {
   CLIENTID,
   CLIENTSECRET,
   REFRESH,
+  SECRET
 } = require("../config");
 
 const DIR = "./public/";
@@ -59,13 +61,16 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get("/user/:id", async (req, res) => {
-  try {
-    const user = await User.findById(req.params.id);
-    res.json(user);
-    console.log("User found");
-  } catch (err) {
-    console.log(err);
+router.get("/user", auth, async (req, res) => {
+  console.log("get user")
+  try{
+    const user = await User.findById(req.user.id)
+    if (!user){
+      return res.json({message: "user doesn't exist"})
+    }
+    return res.json({user})
+  }catch(err){
+    console.log(err)
   }
 });
 
@@ -77,6 +82,19 @@ router.post("/login", async (req, res) => {
 // router.post("/admin-login", async (req, res) => {
 //   await userLogin(req.body, "admin", res);
 // });
+
+// router.get('/get-image', auth, async(req, res) => {
+//   console.log("get image")
+//   try{
+//     const user = await User.findById(req.user.id)
+//     if (!user){
+//       return res.json({message: "user doesn't exist"})
+//     }
+//     return res.json({user})
+//   }catch(err){
+//     console.log(err)
+//   }
+// })
 
 router.post("/register", async (req, res) => {
   console.log("Inside the register");
@@ -124,6 +142,12 @@ router.patch("/updateemail/:id", async (req, res) => {
     console.log(err);
   }
 });
+
+
+router.get('/isUserAuth', auth, (req, res) => {
+  return res.json({isLoggedIn: true, email: req.user.email, role: req.user.role})
+})
+
 
 router.patch("/photo/:id", upload.single("idimg"), async (req, res, err) => {
   console.log("Inside photo update");
@@ -190,12 +214,6 @@ const sendEmail = (to, uname, type) => {
   });
 };
 
-// let mailOptions = {
-//   from: 'yusraa190@gmail.com',
-//   to: 'yusra-ahmed13@hotmail.com',
-//   subject: 'Nodemailer Project',
-//   text: 'Hi from nodemailer project'
-// }
 
 router.post("/send-approval-mail", async (req, res) => {
   console.log(req.body);

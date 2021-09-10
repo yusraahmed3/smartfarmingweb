@@ -1,7 +1,6 @@
-import AvatarImg from "../images/avatar.png";
 import React from "react";
 import "./Sidebar.css";
-import Avatar from './Avatar'
+import Avatar from "./Avatar";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import ThumbUpIcon from "@material-ui/icons/ThumbUp";
@@ -10,9 +9,10 @@ import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 
 function Sidebar(props) {
   const logout = () => {
-    localStorage.clear();
+    localStorage.clear()
+    localStorage.removeItem("token");
     window.location.pathname = "/";
-    console.log(localStorage.getItem("admin"))
+
   };
 
   return (

@@ -1,8 +1,14 @@
-.position{
-    position: absolute;
-    right: 10%; 
-    height: 70vh;
-    width: 70vw; 
-    align-items: center;
-    justify-content: center;
+.position {
+  position: absolute;
+  right: 10%;
+  height: 70vh;
+  width: 70vw;
+  align-items: center;
+  justify-content: center;
+}
+
+.iframestyle {
+  width: 450px;
+  height: 250px;
+  border: 1px solid #cccccc;
 }

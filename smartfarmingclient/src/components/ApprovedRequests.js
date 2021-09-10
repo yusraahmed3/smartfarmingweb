@@ -9,8 +9,8 @@ import NotInterestedIcon from "@material-ui/icons/NotInterested";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-const json = localStorage.getItem("admin");
-const userID = JSON.parse(json);
+// const json = localStorage.getItem("admin");
+// const userID = JSON.parse(json);
 
 class ApprovedRequests extends Component {
   constructor(props) {

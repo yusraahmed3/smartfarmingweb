@@ -7,7 +7,8 @@ import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 
 function UserSidebar(props) {
   const logout = () => {
-    localStorage.clear();
+    localStorage.clear()
+    localStorage.removeItem("token");
     window.location.pathname = "/";
   };
 

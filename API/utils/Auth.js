@@ -51,25 +51,29 @@ const userLogin = async (userCreds, role, res) => {
   if (isMatch) {
     jwt.sign(
       {
-        user_id: user._id,
+        id: user._id,
         role: user.role,
-        email: user.email,
+        email: user.email
       },
       SECRET,
       { expiresIn: 3600 },
       (err, token) => {
-        if (err) throw err;
+        if (err) {
+          res.json({message: "Email password incorrect!"})
+        };
         res.json({
-          token,
-          result: {
-            name: user.name,
-            phoneno: user.phoneno,
-            password: user.password,
-            email: user.email,
-            idimg: user.idimg,
-            id: user._id,
-            role: user.role,
-          },
+          message: "Success",
+          token: "Bearer " + token,
+          role: user.role
+          // result: {
+          //   name: user.name,
+          //   phoneno: user.phoneno,
+          //   password: user.password,
+          //   email: user.email,
+          //   idimg: user.idimg,
+          //   id: user._id,
+          //   role: user.role,
+          // },
         });
       }
     );
