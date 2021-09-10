@@ -1,0 +1,10 @@
+.footertext {
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+}
+
+.textfooter p {
+  margin-left: 45%;
+  color: rgb(172, 169, 169);
+}

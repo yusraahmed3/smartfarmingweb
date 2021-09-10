@@ -3,6 +3,7 @@ import Navbar from "./Navbar";
 import LineImage from "../images/line1.png";
 import SFImage from "../images/smartfarming.jpg";
 import "./About.css";
+import Footer from "./footer";
 
 function About() {
   return (
@@ -30,6 +31,7 @@ function About() {
           reduce labor and equipment maintenance costs.
         </div>
       </div>
+      <Footer />
     </div>
   );
 }
