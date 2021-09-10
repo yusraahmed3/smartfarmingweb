@@ -44,7 +44,7 @@ class ActiveRequests extends Component {
     super(props);
     this.state = {
       requests: [],
-      image: "",
+      request: [],
       loading: true,
     };
   }
@@ -191,33 +191,22 @@ class ActiveRequests extends Component {
       loading: false,
     });
     console.log(response);
-    axios({
-      url: "http://localhost:4000/users/user",
-      method: "get",
-      headers: {
-        "x-access-token": localStorage.getItem("token"),
-      },
-    })
-      .then((res) => {
-        console.log(res.data.user.idimg);
-        this.setState({
-          image: res.data.user.idimg})
-      })
-      .catch((err) => console.log(err));
   }
 
   render() {
     if (this.state.loading || !this.state.requests) {
       return (
         <>
-          <Sidebar image={this.state.image} />
+          <Sidebar />
           <CircularProgress className="progresscircular" />
         </>
       );
     } else {
+      const json = localStorage.getItem("admin");
+      const userID = JSON.parse(json);
       return (
         <>
-          <Sidebar image={this.state.image} />
+          <Sidebar image={userID.idimg} />
 
           <div className="position">
             <div className="pagetitle">
