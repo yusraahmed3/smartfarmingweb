@@ -69,13 +69,3 @@ export const updateUser = (user) => async (dispatch) => {
     });
   }
 };
-
-// export const signUp =  (formData, navigate) =>  async(dispatch) =>{
-//     try {
-//         const { data } = await api.signUp(formData)
-//         dispatch({type: 'SIGNUP', data} )
-//         navigate('/dashboard')
-//     } catch (error) {
-//         console.log(error)
-//     }
-// }

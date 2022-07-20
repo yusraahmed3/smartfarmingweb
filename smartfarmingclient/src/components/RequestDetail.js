@@ -1,14 +1,15 @@
 import React from "react";
 import Sidebar from "./Sidebar";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "./Button";
-import { rejectRequest } from "../actions/request";
+import { approveRequest, rejectRequest } from "../actions/request";
 import { useDispatch } from "react-redux";
 import ScreenTitles from "./ScreenTitles";
 
 function RequestDetail() {
   const location = useLocation();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   // get data and pathname from prev location
   const { request, prevPath } = location.state;
 
@@ -55,12 +56,14 @@ function RequestDetail() {
                         size="w-28"
                         textColor="text-white"
                         color="bg-green-600"
+                        onClick={() => dispatch(approveRequest(request._id))}
                       />
                       <Button
                         text="Reject"
                         size="w-28"
                         textColor="text-white"
                         color="bg-red-600"
+                        onClick={() => dispatch(rejectRequest(request._id))}
                       />
                     </div>
                   ),

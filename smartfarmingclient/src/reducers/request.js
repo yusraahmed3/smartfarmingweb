@@ -27,17 +27,9 @@ export const requestReducer = (state = { requests: [] }, action) => {
 
     default:
       return state;
-
-    // case "SEND":
-    //   return [...requests, action.payload];
-    // case "DELETE":
-    //   return requests.filter((req) => req._id !== action.payload);
-    // case "APPROVE":
-    //   return requests.filter((r) => r.status !== action.payload.status);
-    // case "REJECT":
-    //   return requests.filter((r) => r.status !== action.payload.status);
   }
 };
+
 export const sendRequest = (state = { request: [] }, action) => {
   switch (action.type) {
     case SEND_REQUEST:
