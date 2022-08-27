@@ -1,11 +1,14 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import Navbar from "./Navbar";
 import { useForm } from "react-hook-form";
 import FormErrors from "./FormErrors";
-import { useDispatch } from "react-redux";
-import { sendRequest } from "../actions/request";
+import { useDispatch, useSelector } from "react-redux";
+import { sendRequest } from "../redux/features/requestSlice";
+import { Loadingpage } from "./Loadingpage";
+import { toast } from "react-toastify";
 
 function Request() {
+  const { loading, message } = useSelector((state) => state.request);
   const dispatch = useDispatch();
   const {
     register,
@@ -69,6 +72,18 @@ function Request() {
     message: { required: "Field required" },
   };
 
+  useEffect(() => {
+    console.log(message);
+    toast.configure();
+    message &&
+      toast.error(message, {
+        position: "top-center",
+        autoClose: 5000,
+        pauseOnHover: true,
+        hideProgressBar: true,
+      });
+  }, [message]);
+
   const onSubmit = (data) => {
     const formData = new FormData();
     formData.append("firstName", data.firstName);
@@ -80,11 +95,12 @@ function Request() {
     formData.append("password", data.password);
     formData.append("confirmpwd", data.confirmpwd);
     formData.append("photo", data.photo[0]);
-    dispatch(sendRequest(formData));
+    dispatch(sendRequest({ formData }));
     reset();
   };
   return (
     <>
+      {loading && <Loadingpage />}
       <Navbar />
       <div className="flex flex-col items-center gap-y-5">
         <h1 className="font-bold text-2xl text-center text-black mt-5">
@@ -173,7 +189,7 @@ function Request() {
             <FormErrors errors={errors.message?.message} />
             <button
               type="submit"
-              className="bg-buttonColor text-textColor  w-32 rounded-md p-2 self-end"
+              className="bg-buttonColor text-textColor  w-32 rounded-md p-2 self-end "
             >
               Send
             </button>

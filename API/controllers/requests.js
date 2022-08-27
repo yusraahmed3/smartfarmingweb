@@ -89,13 +89,14 @@ export const getRequests = async (req, res) => {
     const requests = await Request.find();
     res.status(200).json(requests);
   } catch (err) {
-    res.send("Error", +err);
+    res
+      .status(500)
+      .json({ message: "Could not fetch requests. Please try again later." });
   }
 };
 
 export const sendRequest = async (req, res) => {
   console.log("Inside send function");
-  const url = req.protocol + "://" + req.get("host");
   const request = req.body;
   const existingRequest = await Request.findOne({ email: request.email });
   if (existingRequest)
@@ -104,7 +105,7 @@ export const sendRequest = async (req, res) => {
         "Your request is still pending. Please wait until we finish reviewing it.",
     });
   if (request.password !== request.confirmpwd)
-    return res.status(400).json({ message: "Passwords don't match" });
+    return res.status(400).json({ message: "Passwords don't match." });
 
   const newRequest = new Request({
     ...request,
@@ -136,9 +137,9 @@ export const deleteRequest = async (req, res) => {
   try {
     const requestToDelete = await Request.findById(req.params.id);
     if (!requestToDelete)
-      return res.status(404).json({ message: "Request not found" });
+      return res.status(404).json({ message: "Request not found." });
     await requestToDelete.delete();
-    return res.status(200).json({ message: "Request deleted successfully" });
+    return res.status(200).json({ message: "Request deleted successfully!" });
   } catch (error) {
     res
       .status(500)
@@ -177,14 +178,16 @@ export const approveRequest = async (req, res) => {
             }
           });
           userRegister(request, "user", res);
+          console.log(request);
           return res
             .status(200)
-            .json({ data: request, message: "Request approved" });
+            .json({ data: request, message: "Request approved!" });
         }
       }
     );
   } catch (error) {
     console.log(error);
+    return res.status(500).json({ message: "Something went wrong!" });
   }
 };
 
@@ -192,7 +195,8 @@ export const approveRequest = async (req, res) => {
 export const rejectRequest = async (req, res) => {
   const request = await Request.findById(req.params.id);
   try {
-    if (!request) return res.status(404).json({ message: "Request not found" });
+    if (!request)
+      return res.status(404).json({ message: "Request not found!" });
     await Request.findByIdAndUpdate(
       req.params.id,
       { $set: { status: "rejected" } },
@@ -218,13 +222,15 @@ export const rejectRequest = async (req, res) => {
               console.log("Successfully sent email");
             }
           });
+          console.log(request);
           return res
             .status(200)
-            .json({ data: request, message: "Request rejected" });
+            .json({ data: request, message: "Request rejected!" });
         }
       }
     );
   } catch (error) {
     console.log(error);
+    return res.status(500).json({ message: "Something went wrong!" });
   }
 };

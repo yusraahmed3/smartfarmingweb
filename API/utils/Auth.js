@@ -39,10 +39,12 @@ const userLogin = async (userCreds, role, res) => {
   const { email, password } = userCreds;
   try {
     const user = await User.findOne({ email });
-    if (!user)
+    if (!user) {
+      console.log("User not found");
       return res
         .status(404)
         .json({ message: "User doesn't exit. Please sign up", succes: false });
+    }
 
     // check if password matches hashed password in DB
     let isMatch = await bcrypt.compare(password, user.password);
@@ -67,7 +69,7 @@ const userLogin = async (userCreds, role, res) => {
       token,
     });
   } catch (error) {
-    res.status(500).json("Something went wrong!");
+    res.status(500).json({ message: "Something went wrong!" });
   }
 };
 

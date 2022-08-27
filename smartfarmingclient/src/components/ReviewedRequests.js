@@ -4,29 +4,45 @@ import { Button } from "./Button";
 import { FiMoreVertical } from "react-icons/fi";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchRequests } from "../actions/request";
+import {
+  getRequests,
+  deleteRequest,
+  reset,
+} from "../redux/features/requestSlice";
 import { AiFillDelete } from "react-icons/ai";
-import { deleteRequest } from "../actions/request";
 import { Loadingpage } from "./Loadingpage";
 import ScreenTitles from "./ScreenTitles";
+import { toast } from "react-toastify";
+
 function ReviewedRequests() {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const prevPath = location.pathname;
 
-  const { loading, requests } = useSelector((state) => state.requestReducer);
-
-  const { success } = useSelector((state) => state.deleteRequest);
+  const { loading, requests, success, message, isDeleted } = useSelector(
+    (state) => state.request
+  );
 
   const deleteR = (id) => {
-    dispatch(deleteRequest(id));
+    dispatch(deleteRequest({ id }));
+    dispatch(reset());
   };
+
+  useEffect(() => {
+    message &&
+      toast.error(message, {
+        position: "top-center",
+        autoClose: 5000,
+        pauseOnHover: true,
+        hideProgressBar: true,
+      });
+  }, [message]);
 
   //fetch all requests
   useEffect(() => {
-    dispatch(fetchRequests());
-  }, [dispatch, success]);
+    dispatch(getRequests());
+  }, [dispatch, success, isDeleted]);
 
   const toRequestDetail = (e, request) => {
     e.preventDefault();
@@ -39,9 +55,16 @@ function ReviewedRequests() {
         <ScreenTitles title="Reviewed Requests" />
         {loading && <Loadingpage />}
         <div className="bg-white rounded-md p-5 mt-2 h-full">
-          <div className="rounded-lg h-3/4 md:w-3/4 m-auto overflow-y-scroll  shadow-md">
-            <table className="w-full  h-full">
-              <thead className="text-left text-textColor text-base bg-buttonColor uppercase tracking-wider sticky top-0">
+          {requests.length === 0 && (
+            <p className="text-center text-xl">No requests</p>
+          )}
+          <div className="rounded-lg h-auto md:w-3/4 m-auto overflow-auto  shadow-md">
+            <table className="w-full  h-full overflow-auto">
+              <thead
+                className={`text-left text-textColor text-base bg-buttonColor uppercase tracking-wider ${
+                  requests.length !== 0 ? "sticky top-0" : "hidden"
+                }`}
+              >
                 <tr>
                   <th className="px-6 py-3">Name</th>
                   <th className="px-6 py-3">Company</th>
@@ -52,7 +75,7 @@ function ReviewedRequests() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-lighterColor  ">
-                {requests?.reverse().map((request, i) => {
+                {requests?.map((request, i) => {
                   return (
                     request.status !== "pending" && (
                       <tr key={i} className="">
@@ -74,7 +97,7 @@ function ReviewedRequests() {
                             {request.status}
                           </p>
                         </td>
-                        <td className="px-6 py-3  text-right flex whitespace-nowrap">
+                        <td className="px-6 py-3  flex justify-center items-center h-full whitespace-nowrap">
                           <Button
                             icon={<AiFillDelete />}
                             textColor="text-darkerColor"

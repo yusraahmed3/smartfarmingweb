@@ -2,7 +2,7 @@ import Sidebar from "./Sidebar";
 import Avatar from "./Avatar";
 import { useMemo, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { updateUser } from "../actions/userActions";
+import { updateUserAction } from "../redux/features/authSlice";
 import { useForm } from "react-hook-form";
 import { Loadingpage } from "./Loadingpage";
 import { AiFillEdit } from "react-icons/ai";
@@ -10,8 +10,10 @@ import ScreenTitles from "./ScreenTitles";
 
 function ManageAccount() {
   const dispatch = useDispatch();
-  const { userData } = useSelector((state) => state.userAuth);
-  const { loading } = useSelector((state) => state.userUpdate);
+  const { user, loading } = useSelector((state) => ({
+    ...state.auth,
+  }));
+  // const { loading } = useSelector((state) => state.userUpdate);
 
   // open dialog box on click
   const handlePictureChange = () => {
@@ -20,7 +22,7 @@ function ManageAccount() {
 
   const { register, handleSubmit, reset } = useForm({
     // populate the form
-    defaultValues: useMemo(() => userData, [userData]),
+    defaultValues: useMemo(() => user, [user]),
   });
 
   const { ref, ...rest } = register("photo");
@@ -36,7 +38,7 @@ function ManageAccount() {
     formData.append("password", data.password);
     formData.append("confirmpwd", data.confirmpwd);
     formData.append("photo", data.photo[0]);
-    dispatch(updateUser(formData));
+    dispatch(updateUserAction({ formData }));
   };
 
   // reset fields
@@ -54,7 +56,7 @@ function ManageAccount() {
 
           <div className="flex flex-col items-center gap-y-3 p-5">
             <span className="flex items-end gap-x-3">
-              <Avatar image={userData?.photo} size="w-24 h-24" />
+              <Avatar image={user?.photo} size="w-24 h-24" />
               <span
                 onClick={handlePictureChange}
                 className="text-gray-300 text-lg cursor-pointer"

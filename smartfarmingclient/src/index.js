@@ -6,7 +6,8 @@ import { BrowserRouter } from "react-router-dom";
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import "./assets/fonts/OpenSans/OpenSansCondensed-Light.ttf";
-import { store } from "./store";
+// import { store } from "./store";
+import store from "./redux/store";
 
 ReactDOM.render(
   <Provider store={store}>

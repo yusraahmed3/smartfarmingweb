@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Avatar from "./Avatar";
 import { AdminSidebarData, UserSidebarData } from "./SidebarData";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { MdDoubleArrow } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../actions/userActions";
 import { BiMenuAltRight } from "react-icons/bi";
 import { AiOutlineClose } from "react-icons/ai";
+import { logout } from "../redux/features/authSlice";
 
 function Sidebar() {
   const location = useLocation();
@@ -14,11 +14,10 @@ function Sidebar() {
   const defaultOpen = localStorage.getItem(drawerOpenKey) === "true";
   const [open, setOpen] = useState(defaultOpen);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const { userData } = useSelector((state) => state.userAuth);
+  const { user } = useSelector((state) => ({ ...state.auth }));
 
   const sidelogout = () => {
-    dispatch(logout(navigate));
+    dispatch(logout());
   };
 
   // save drawer state in localstorage
@@ -53,18 +52,19 @@ function Sidebar() {
         </div>
 
         <div className="flex flex-row  items-end gap-x-3 w-full">
-          <Avatar image={userData.photo} size="w-16 h-16" />
-          <p
-            className={`${!open && "hidden"} text-textColor text-sm `}
-          >{`@${userData.email}`}</p>
+          <Avatar image={user?.photo} size="w-16 h-16" />
+          <div className={`${!open && "hidden"} `}>
+            <p className="text-white text-base">{user?.name}</p>
+            <p className="text-gray-400 text-sm ">{user?.email}</p>
+          </div>
         </div>
         <ul className="pt-8 ">
-          {(userData.role === "admin" ? AdminSidebarData : UserSidebarData).map(
+          {(user?.role === "admin" ? AdminSidebarData : UserSidebarData).map(
             (item, i) => {
               return (
                 <Link to={item.link} key={i}>
                   <li
-                    onClick={item.last && sidelogout}
+                    onClick={item.last && (() => sidelogout)}
                     className={`flex items-center ${
                       !open && "justify-center"
                     } gap-x-4 p-3 my-2 ${

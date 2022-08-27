@@ -2,7 +2,7 @@ import React from "react";
 import Sidebar from "./Sidebar";
 import { useLocation } from "react-router-dom";
 import { Button } from "./Button";
-import { approveRequest, rejectRequest } from "../actions/request";
+import { approveRequest, declineRequest, reset } from "../redux/features/requestSlice";
 import { useDispatch } from "react-redux";
 import ScreenTitles from "./ScreenTitles";
 
@@ -11,6 +11,16 @@ function RequestDetail() {
   const dispatch = useDispatch();
   // get data and pathname from prev location
   const { request, prevPath } = location.state;
+
+  const approveRequestHandler = (id) => {
+    dispatch(approveRequest({ id }));
+    dispatch(reset());
+  };
+
+  const declineRequestHandler = (id) => {
+    dispatch(declineRequest({ id }));
+    dispatch(reset());
+  };
 
   return (
     <div className="flex bg-gray-100">
@@ -55,14 +65,14 @@ function RequestDetail() {
                         size="w-28"
                         textColor="text-white"
                         color="bg-green-600"
-                        onClick={() => dispatch(approveRequest(request._id))}
+                        onClick={() => approveRequestHandler(request._id)}
                       />
                       <Button
                         text="Reject"
                         size="w-28"
                         textColor="text-white"
                         color="bg-red-600"
-                        onClick={() => dispatch(rejectRequest(request._id))}
+                        onClick={() => declineRequestHandler(request._id)}
                       />
                     </div>
                   ),
@@ -70,7 +80,7 @@ function RequestDetail() {
                     <div>
                       {request.status === "approved" && (
                         <Button
-                          onClick={() => dispatch(rejectRequest(request._id))}
+                          onClick={() => declineRequestHandler(request._id)}
                           text="Revoke Access"
                           textColor="text-white"
                           size="w-32"

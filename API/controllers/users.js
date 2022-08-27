@@ -149,7 +149,6 @@ export const getUser = async (req, res) => {
 export const updateProfile = async (req, res) => {
   console.log("Inside update");
   const user = await User.findById(req.userId);
-  const url = req.protocol + "://" + req.get("host");
 
   if (user) {
     user.name = req.body.name || user.name;
@@ -176,7 +175,6 @@ export const updateProfile = async (req, res) => {
       expiresIn: "1h",
     });
     const updatedUser = await user.save();
-    console.log(updatedUser);
     res.status(200).json({
       email: updatedUser.email,
       id: updatedUser._id,
