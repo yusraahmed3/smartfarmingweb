@@ -1,57 +1,63 @@
+
 import React from "react";
-import { MdDashboard, MdAccountCircle } from "react-icons/md";
+import {
+  MdDashboard,
+  MdAccountCircle,
+  MdSettings,
+} from "react-icons/md";
 import { FiActivity } from "react-icons/fi";
 import { BsFillCheckSquareFill } from "react-icons/bs";
 import { BiLogOut } from "react-icons/bi";
 
-export const AdminSidebarData = [
+import { isDemoMode } from "../demoMode";
+
+const mainMenu = [
   {
     title: "Dashboard",
     icon: <MdDashboard />,
     link: "/dashboard",
   },
   {
-    title: "Account ",
+    title: "Farm Settings",
+    icon: <MdSettings />,
+    link: "/settings",
+  },
+  {
+    title: "Account",
     icon: <MdAccountCircle />,
     link: "/account",
   },
+];
+
+const adminOnlyMenu = [
   {
-    title: "Requests ",
+    title: "Requests",
     icon: <FiActivity />,
     link: "/active",
     gap: true,
   },
   {
-    title: "Reviewed ",
+    title: "Reviewed",
     icon: <BsFillCheckSquareFill />,
     link: "/reviewed",
   },
-  {
-    title: "Log out",
-    icon: <BiLogOut />,
-    link: "/",
-    last: true,
-    gap: true,
-  },
+];
+
+const exitItem = {
+  title: isDemoMode ? "Exit preview" : "Log out",
+  icon: <BiLogOut />,
+  link: "/",
+  last: true,
+  gap: true,
+};
+
+export const AdminSidebarData = [
+  ...mainMenu,
+  ...(!isDemoMode ? adminOnlyMenu : []),
+  exitItem,
 ];
 
 export const UserSidebarData = [
-  {
-    title: "Dashboard",
-    icon: <MdDashboard />,
-    link: "/dashboard",
-  },
-  {
-    title: "Account ",
-    icon: <MdAccountCircle />,
-    link: "/account",
-    gap: true,
-  },
-  {
-    title: "Log out",
-    icon: <BiLogOut />,
-    link: "/",
-    last: true,
-    gap: true,
-  },
+  ...mainMenu,
+  exitItem,
 ];

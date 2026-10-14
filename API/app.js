@@ -9,8 +9,6 @@ import userRoutes from "./routes/users.js";
 import requestRoutes from "./routes/requests.js";
 import channelRoutes from "./routes/channel.js";
 import dotenv from "dotenv";
-import passportConfig from "./middlewares/passport.js";
-import passport from "passport";
 
 dotenv.config();
 
@@ -20,9 +18,7 @@ app.use(cookieParser());
 
 app.use(cors());
 
-app.use(passport.initialize());
 
-passportConfig(passport);
 
 mongoose
   .connect(process.env.APP_DB, {
@@ -34,7 +30,9 @@ mongoose
   .then(() => {
     console.log("DB connected");
   })
-  .catch(() => console.log("Connection Error"));
+  .catch((error) => {
+  console.error("MongoDB connection failed:", error.message);
+});
 
 app.use("/users", userRoutes);
 app.use("/requests", requestRoutes);

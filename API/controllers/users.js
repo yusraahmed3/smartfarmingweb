@@ -1,3 +1,5 @@
+
+import fs from "node:fs";
 import User from "../models/user.js";
 import { userRegister, userLogin } from "../utils/Auth.js";
 import jwt from "jsonwebtoken";
@@ -19,21 +21,25 @@ var s3 = new aws.S3({
   /*...*/
 });
 
-let storage = multerS3({
-  s3: s3,
-  bucket: process.env.PRIVATE_AWS_BUCKET,
-  acl: "public-read",
-  contentType: multerS3.AUTO_CONTENT_TYPE,
-  metadata(req, file, cb) {
-    cb(null, { fieldName: file.fieldname });
+
+
+// Local file storage for development only
+const uploadDirectory = "./images";
+
+fs.mkdirSync(uploadDirectory, { recursive: true });
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, uploadDirectory);
   },
-  key(req, file, cb) {
+
+  filename: (req, file, cb) => {
     cb(null, Date.now() + "--" + file.originalname);
   },
 });
 
 export const upload = multer({
-  storage: storage,
+  storage,
 });
 
 sgMail.setApiKey(credentials.SGSECRET);

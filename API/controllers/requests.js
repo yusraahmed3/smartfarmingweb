@@ -1,10 +1,10 @@
+import fs from "fs";
 import Request from "../models/request.js";
 import multer from "multer";
 import { userRegister } from "../utils/Auth.js";
 import nodemailer from "nodemailer";
 import mg from "nodemailer-mailgun-transport";
 import handlebars from "handlebars";
-import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import multerS3 from "multer-s3-v2";
@@ -20,21 +20,22 @@ var s3 = new aws.S3({
   /*...*/
 });
 
-let storage = multerS3({
-  s3: s3,
-  bucket: process.env.PRIVATE_AWS_BUCKET,
-  acl: "public-read",
-  contentType: multerS3.AUTO_CONTENT_TYPE,
-  metadata(req, file, cb) {
-    cb(null, { fieldName: file.fieldname });
+const uploadDirectory = "./images";
+
+fs.mkdirSync(uploadDirectory, { recursive: true });
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, uploadDirectory);
   },
-  key(req, file, cb) {
+
+  filename: (req, file, cb) => {
     cb(null, Date.now() + "--" + file.originalname);
   },
 });
 
 export const upload = multer({
-  storage: storage,
+  storage,
 });
 
 const __filename = fileURLToPath(import.meta.url);
@@ -73,14 +74,28 @@ const emailTemplate = fs.readFileSync(
   "utf8"
 );
 
-const mailgunAuth = {
-  auth: {
-    api_key: process.env.MAILGUN_API_KEY,
-    domain: process.env.DOMAIN_NAME,
-  },
-};
 
-const smtpTransport = nodemailer.createTransport(mg(mailgunAuth));
+const mailgunKey = process.env.MAILGUN_API_KEY;
+const mailgunDomain = process.env.DOMAIN_NAME;
+
+const smtpTransport =
+  mailgunKey && mailgunDomain
+    ? nodemailer.createTransport(
+        mg({
+          auth: {
+            api_key: mailgunKey,
+            domain: mailgunDomain,
+          },
+        })
+      )
+    : null;
+
+if (!smtpTransport) {
+  console.warn(
+    "Mailgun is not configured. Email sending is disabled."
+  );
+}
+
 
 const template = handlebars.compile(emailTemplate);
 
@@ -170,7 +185,7 @@ export const approveRequest = async (req, res) => {
             subject: "Request Approved!",
             html: htmlToSend,
           };
-          smtpTransport.sendMail(mailOptions, (err, res) => {
+          smtpTransport?.sendMail(mailOptions, (err, res) => {
             if (err) {
               console.log("Not working");
             } else {
